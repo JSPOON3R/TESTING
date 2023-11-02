@@ -323,9 +323,7 @@
         var settings = {
             // Surfly session options can be set here, or at the Company/Plan levels.
             widget_key: 'd97af65cf4d24a7f86783f8cd38cfe8e',
-            url: urlValue,
-            allowlist: '[{"pattern": ".*' + urlValue +'.*", "redirect": "https://wikipedia.com"}]',
-            meta: "{'TEST'}",
+            meta: '{"TEST"}',
             private_session: false, // to make sure only logged-in agents can join the call
             password_required: false,
             host_switching_allowed: true,
@@ -345,7 +343,7 @@
                 console.log("Surfly was unable to initialize properly.");
             }
 
-            SurflySession = Surfly.session({ start_with_chat_open: false, start_with_videochat_on: false,  }).startLeader("#iframe");
+            SurflySession = Surfly.session({url: urlValue, allowlist: '[{"pattern": ".*' + urlValue +'.*", "redirect": "https://wikipedia.com"}]'  }).startLeader("#iframe");
 
             Surfly.on('session_created', function (session, event) {
                 console.log('Session', session.followerLink, 'has just started');
