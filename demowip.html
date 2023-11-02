@@ -343,7 +343,7 @@
                 console.log("Surfly was unable to initialize properly.");
             }
 
-            SurflySession = Surfly.session({url: urlValue, allowlist: '[{"pattern": ".*' + urlValue +'.*", "redirect": "https://wikipedia.com"}]'  }).startLeader("#iframe");
+            SurflySession = Surfly.session({url: urlValue, allowlist: '[{"pattern": ".*(('+urlValue+'.*)|jspoon3r.github.io/demo-surfly/contact_surfly.html)", "redirect": "https://jspoon3r.github.io/demo-surfly/contact_surfly.html"}]'  }).startLeader("#iframe");
 
             Surfly.on('session_created', function (session, event) {
                 console.log('Session', session.followerLink, 'has just started');
