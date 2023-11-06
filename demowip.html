@@ -5,479 +5,213 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surfly: Ayush</title>
-    <script>
-        (function (s, u, r, f, l, y) {
-            s[f] = s[f] || { init: function () { s[f].q = arguments } };
-            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
-            l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
-        })
-            (window, document, 'script', 'Surfly');
-    </script>
-    <script>
-        var urlValue; // Declare urlValue in the global scope
-
-        document.addEventListener('DOMContentLoaded', function () {
-            function capitalizeFirstLetter(str) {
-                return str.charAt(0).toUpperCase() + str.slice(1);
-            }
-
-            // Function to get the value of a query parameter from the URL
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
-
-            function removeWwwPrefix(text) {
-                return text.replace(/^www\./, '');
-            }
-            // Get and store the values of query parameters as variables
-            const nameValue = getQueryParam("name");
-            urlValue = getQueryParam("url"); // Assign urlValue in the global scope
-
-            // Check if the parameters exist and are not empty
-            if (nameValue && urlValue) {
-                // You can use the values of nameValue and urlValue here
-                const capitalizedName = capitalizeFirstLetter(nameValue);
-
-                const greeting = "Hi " + capitalizedName + ",";
-                console.log("Value of greeting: " + greeting);
-                console.log("Value of url: " + urlValue);
-                const outputTextElement = document.getElementById("customer-name");
-                outputTextElement.textContent = greeting;
-                const websitename = document.getElementById("website");
-                const websitename2 = document.getElementById("website-subheading");
-                websitename.textContent = urlValue;
-                const newurlvalue = removeWwwPrefix(urlValue);
-                websitename2.textContent = newurlvalue;
-
-
-
-
-                // Now you can run the second script here
-                // Include the second script's content here
-            } else {
-                console.log("One or both query parameters are missing.");
-            }
-
-        });
-
-
-    </script>
-    <!--Structure-->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        html,
-        body {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-    to top,
-    #fdeced 70%, /* Adjust the color stops as needed */
-    #ffffff 100%
-  );
-            font-family: Arial, sans-serif;
-            flex-wrap: wrap;
-            display: flex;
-            overflow: scroll;
-        }
-
-        .container {
-            position: fixed;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95%;
-            height:95%;
-            opacity: 100%;
-            border-radius: 20px;
-        }
-
-        .top-row {
-            position: relative;
-            display: flex;
-            width: 100%;
-            height: 30%;
-        }
-
-        .column-top {
-            box-sizing: content-box;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-
-            margin:2px;
-            border-radius: 10%;
-        }
-
-        #top-left {
-            width: 71%;
-        }
-
-        #top-right {
-            width: 29%;
-        }
-
-        /* Style the bottom row with two columns */
-        .bottom-row {
-            position: static;
-            display: flex;
-
-            width: 100%;
-            height: 70%;
-        }
-
-        .column-bottom {
-            box-sizing: content-box;
-            display: flex;
-            flex-direction: column;
-            margin-top: 15px;
-            margin:2px;
-
-        }
-
-        #bottom-right {
-            width: 35%;
-            background-color: #f7eded;
-            border-radius:3%;
-        }
-
-        #bottom-left {
-            width: 65%;
-
-        }
-    </style>
-    <!--Style-->
-    <style>
-        .send-link {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            margin-top: 20px;
-            margin-left: 5%;
-            align-items: center;
-        }
-
-        .heading {
-            font-weight: normal;
-            font-size: 4rem;
-            margin-bottom: 2vh;
-            margin-left: 5%;
-            color: #2b2b2b;
-        }
-
-        .subheading {
-            font-size: 2.5rem;
-            font-weight: lighter;
-            color: #999;
-            margin-left: 5%;
-        }
-
-        .subheading2 {
-            font-size: 1.2rem;
-            font-weight: lighter;
-            color: #999;
-            margin-bottom: 1%;
-        }
-
-        #website-subheading {
-            font-weight: bold;
-        }
-
-
-.image-container {
-  position: fixed;
-  height:90%;
-  width:90%;
-  top:25%;
-  bottom:5%;
-  left:3%;
-  right:15%;
-  z-index: 2147483646;
-  display: inline-block;
-  overflow: hidden; /* Hide the overflow */
-
-}
-
-.image-container img {
-    position:absolute;
-    height: 80%;
-  width: 70%;
-
-}
-
-.iframe-overlay {
-    position:absolute;
-    height: 67%;
-  width: 55%;
-  top:5%;
-  bottom:1%;
-  left:7.5%;
-  right:0%;
-  z-index: 2147483647;
-
-}
-
-
-.osx-window {
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            display: flex;
-            border-radius:1%;
-            flex-direction: column;
-        }
-
-        .iframe-content {
-            width: auto;
-            height: 100%;
-            border: none;
-        }
-
-
-
-        .image-holder img {
-            width: 8vw;
-            height: 8vw;
-        }
-
-        .contact-details {
-            align-self: center;
-            display: flex;
-            text-align: right;
-            margin-left: 10%;
-            margin-right: 2%;
-        }
-
-        .contact-div {
-            display: flex;
-            flex-direction: row;
-            justify-content: right;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-            width: 100%;
-            height: 100%;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: space-around;
-            align-items: left;
-            margin-bottom: 40px;
-            margin-top: 10px;
-        }
-
-        .image-button {
-            cursor: pointer;
-        }
-
-        .button {
-            border: .05vw solid #cf2e2e;
-            background-color: #ffffff;
-            box-sizing: border-box;
-            border-radius: 12px;
-            color: #cf2e2e;
-            cursor: pointer;
-            font-family: nunito, sans-serif;
-            font-size: 1rem;
-            font-weight: 100;
-            padding: 0rem .8rem;
-            touch-action: manipulation;
-            margin-left: .5vw;
-            letter-spacing: .035vw;
-        }
-
-        .link-button {
-            width: 25%;
-            margin-left: 0px;
-            padding: 1rem;
-        }
-
-        .button-heading {
-            margin: 10px;
-            text-align: right;
-            font-size: .8vw;
-            font-weight: lighter;
-            color: #999;
-        }
-
-        .red-text {
-            color: #cf2e2e;
-            font-size:2.7rem;
-        }
-    </style>
-    <script>
-        // Your second script content here
-        var SurflySession;
-
-        var settings = {
-            // Surfly session options can be set here, or at the Company/Plan levels.
-            widget_key: 'd97af65cf4d24a7f86783f8cd38cfe8e',
-            meta: '{"TEST"}',
-            private_session: false, // to make sure only logged-in agents can join the call
-            password_required: false,
-            host_switching_allowed: true,
-            block_until_agent_joins: false,
-            videochat: false,
-            follower_redirect_url: "https://jspoon3r.github.io/surfly.html",
-            leader_redirect_url: "https://jspoon3r.github.io/surfly.html"
-        };
-
-        Surfly.init(settings, function (initResult) {
-            if (initResult.success) {
-                // API calls can now be made!
-                if (!Surfly.isInsideSession) {
-                    console.log("Surfly loaded successfully!");
-                }
-            } else {
-                console.log("Surfly was unable to initialize properly.");
-            }
-
-            SurflySession = Surfly.session({url: urlValue, allowlist: '[{"pattern": ".*(('+urlValue+'.*)|jspoon3r.github.io/demo-surfly/contact_surfly.html)", "redirect": "https://jspoon3r.github.io/demo-surfly/contact_surfly.html"}]'  }).startLeader("#iframe");
-
-            Surfly.on('session_created', function (session, event) {
-                console.log('Session', session.followerLink, 'has just started');
-            });
-        });
-
-        const iframe = document.getElementById('iframe');
-
-    </script>
+    <script src="contact.js"></script>
+    <link rel="stylesheet" type="text/css" href="contact.css">
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
 </head>
 
 <body>
+    <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/0316f061f3bbe78287c5fa469d4cdaae6e80cd95/Images/image-36.svg"
+        class="logo">
 
-    <div class="image-container">
-        <img src='https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/mac-png-2.png?raw=true'>
-        <div class="iframe-overlay">
-            <div class="osx-window">
-                <div class="traffic-lights">
-                    <div class="traffic-light red"></div>
-                    <div class="traffic-light amber"></div>
-                    <div class="traffic-light green"></div>
-                </div>
-                <iframe src="" class="iframe-content"
-                    id="iframe"></iframe>
-            </div>
-        </div>
-      </div>
-       <div class="container">
-        <div class="top-row" id="button-backdrop">
-            <div class="column-top" id="top-left">
-                <div class="button-container">
-                    <h2>More about Surfly:</h2>
-                    <h2 class="button-heading">Row 1</h2>
-                    <div class="button-row">
-                        <a href="your_link1.html">
-                            <img class="image-button" src="image1.jpg" alt="Image 1">
-                        </a>
-                        <a href="your_link2.html">
-                            <img class="image-button" src="image2.jpg" alt="Image 2">
-                        </a>
-                        <a href="your_link3.html">
-                            <img class="image-button" src="image3.jpg" alt="Image 3">
-                        </a>
-                    </div>
-                    <h2 class="button-heading">Row 2</h2>
-                    <div class="button-row">
-                        <a href="your_link4.html">
-                            <img class="image-button" src="image4.jpg" alt="Image 4">
-                        </a>
-                        <a href="your_link5.html">
-                            <img class="image-button" src="image5.jpg" alt="Image 5">
-                        </a>
-                        <a href="your_link6.html">
-                            <img class="image-button" src="image6.jpg" alt="Image 6">
-                        </a>
-                    </div>
-                    <h2 class="button-heading">Row 3</h2>
-                    <div class="button-row">
-                        <a href="your_link7.html">
-                            <img class="image-button" src="image7.jpg" alt="Image 7">
-                        </a>
-                        <a href="your_link8.html">
-                            <img class="image-button" src="image8.jpg" alt="Image 8">
-                        </a>
-                        <a href="your_link9.html">
-                            <img class="image-button" src="image9.jpg" alt="Image 9">
-                        </a>
-                    </div>
-                    <h2 class="button-heading">Row 4</h2>
-                    <div class="button-row">
-                        <a href="your_link10.html">
-                            <img class="image-button" src="image10.jpg" alt="Image 10">
-                        </a>
-                        <a href="your_link11.html">
-                            <img class="image-button" src="image11.jpg" alt="Image 11">
-                        </a>
-                        <a href="your_link12.html">
-                            <img class="image-button" src="image12.jpg" alt="Image 12">
-                        </a>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="backdrop">
+            <div class="top-row">
+                <div class="column-top" id="top-left">
 
+                    <h2 class="" id="customer-name">Hey</h2>
+                    <a class="red-text" id="website-subheading">your own website.</a><br><br>
+                    <a class="red-text"> invite others</a> to join you with a single click</p>
 
-            </div>
-
-            <div class="column-top" id="top-right">
-                <!-- Content for the third column in the top row -->
-                <div class="contact-div">
-                    <h3 class="contact-details">
-                        Ayush<br><br>
-                        Schedule a demo<a href=https://calendly.com/surfly-yes-we-ken target="_blank"
-                            style="cursor:pointer"></a>
-                    </h3>
-                    <div class="image-holder">
-                        <img
-                            src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/ayush-demo-img.png?raw=true" />
-                    </div>
-                   
-
-                </div>
-                <div class="window-title" id="website">www.website.com</div>
-            </div>
-        </div>
-
-        <div class="bottom-row">
-            <div class="column-bottom" id="bottom-left">
-
-                  
-        
-
-                    
-                   
-                </div>
-
-            <div class="column-bottom" id="bottom-right">
-
-                <h2 class="heading" id="customer-name">Hey</h2>
-                <p class="subheading">Instantly start a co-browsing session on <br><br><a class="red-text"
-                        id="website-subheading">your own website.</a><br><br>
-                    & <a class="red-text"> invite others</a> to join you with a single click</p>
-                <div class="send-link">
                     <button class="button link-button">Copy Share Link</button>
+
+                    </ul>
+
                 </div>
+                <div class="column-top" id="top-right">
+                    <div class="g2-reviews">
+                        <div class='sk-ww-g2-reviews' data-embed-id='220417'></div><script src='https://widgets.sociablekit.com/g2-reviews/widget.js' async defer></script>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="column-bottom" id="bottom-left">
+                    <div class="osx-window">
+                        <div class="traffic-lights">
+                            <div class="traffic-light red"></div>
+                            <div class="traffic-light amber"></div>
+                            <div class="traffic-light green"></div>
+                            <div class="window-description" id="window-description1">Enable Surfly on your website
+                            </div>
+                            <div class="window-title" id="website">www.website.com</div>
+                        </div>
+                        <iframe src="" class="iframe-content" id="iframe"></iframe>
+                    </div>
+                </div>
+                <div class="column-bottom" id="bottom-right">
+                    <div class="link-buttons">
+                        <div class="link-subheading">
+                            <hr class="left-line">
+                            <h2>Features</h2>
+                            <hr class="right-line">
+                        </div>
+                        <div class="image-container">
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-video-chat.svg" alt="Image 1">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-e-signing-mobile-1.svg" alt="Image 2">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/cobrowsing-icon.svg" alt="Image 3">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/screensharing-icon.svg" alt="Image 2">
+                            </div>
+                        </div>
+                        <div class="link-subheading">
+                            <hr class="left-line">
+                            <h2>Features</h2>
+                            <hr class="right-line">
+                        </div>
+                        <div class="image-container">
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-video-chat.svg" alt="Image 1">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-e-signing-mobile-1.svg" alt="Image 2">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/cobrowsing-icon.svg" alt="Image 3">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/screensharing-icon.svg" alt="Image 2">
+                            </div>
+                        </div>
+                        <div class="link-subheading">
+                            <hr class="left-line">
+                            <h2>Features</h2>
+                            <hr class="right-line">
+                        </div>
+                        <div class="image-container">
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-video-chat.svg" alt="Image 1">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-e-signing-mobile-1.svg" alt="Image 2">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/cobrowsing-icon.svg" alt="Image 3">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/screensharing-icon.svg" alt="Image 2">
+                            </div>
+                        </div>
+                        <div class="link-subheading">
+                            <hr class="left-line">
+                            <h2>Features</h2>
+                            <hr class="right-line">
+                        </div>
+                        <div class="image-container">
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-video-chat.svg" alt="Image 1">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/05/icon-e-signing-mobile-1.svg" alt="Image 2">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/cobrowsing-icon.svg" alt="Image 3">
+                            </div>
+                            <div class="image-button">
+                                <img src="https://www.surfly.com/wp-content/uploads/2022/04/screensharing-icon.svg" alt="Image 2">
+                            </div>
+                        </div>
 
-                <ul class="subheading">
-                    <li>Zero Implementation</li>
-                    <li>No Downloads</li>
-                    <li>All Devices</li>
-                </ul>
-                <!-- Content for the second column in the bottom row -->
+                    </div>
+                    
 
+
+
+                </div>
             </div>
         </div>
     </div>
 </body>
 
 </html>
+
+
+<!--
+
+ <h2 class="subheading">Learn More</h2>
+                        <h2 class="button-heading">What is Surfly?</h2>
+   
+                            <a href="https://www.surfly.com">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/Surfly_Logo.png?raw=true" alt="Image 1">
+                           <p>surfly.com</p>
+                            </a>
+                            <a href="https://www.surfly.com/blog/">
+                                <img class="image-button" src="https://www.surfly.com/wp-content/uploads/2022/05/implementation-4.png" alt="Image 2">
+                                                           <p>Blog</p>
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=guxQATdZUBo">
+                                <img class="image-button" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/2560px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="Image 3">
+                                                           <p>Youtube</p>
+                            </a>
+
+                        <h2 class="button-heading">Features</h2>
+        
+                            <a href="https://help.surfly.com/en/masking">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/cobro-eye-black-thick.png?raw=true" alt="Image 4">
+                                <p>Masking</p>
+                            </a>
+                            <a href="https://help.surfly.com/en/data-processing-protection">
+                                <img class="image-button"
+                                    src="https://www.surfly.com/wp-content/uploads/2022/04/Group-465.png"
+                                    alt="Image 5">
+                                <p>Security</p>
+                            </a>
+                            <a href="https://help.surfly.com/en/guide-to-audit-logs">
+                                <img class="image-button"
+                                    src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/output-onlinepngtools.png?raw=true"
+                                    alt="Image 6">
+                                <p>Audit Logs</p>
+                            </a>
+                   
+                        <h2 class="button-heading">Documentation</h2>
+  
+                            <a href="https://help.surfly.com">
+                                <img class="image-button"
+                                    src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/help-surfly-icon.png?raw=true"
+                                    alt="Image 7">
+                                <p>Help Portal</p>
+                            </a>
+                            <a href="https://docs.surfly.com/">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/output-onlinepngtools%20(14).png?raw=true" alt="Image 8">
+                                <p>Technical Docs</p>
+                            </a>
+                            <a href="https://docs.surfly.com/installation/">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/server.png?raw=true" alt="Image 9">
+                                <p>On-Prem</p>
+                            </a>
+                
+                        <h2 class="button-heading">APIs</h2>
+           
+                            <a href="https://docs.surfly.com/api/v2/">
+                                <img class="image-button"
+                                    src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/api-management.png?raw=true"
+                                    alt="Image 7">
+                                <p>REST</p>
+                            </a>
+                            <a href="https://docs.surfly.com/javascript-api/quickstart/">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/javascript-3.png?raw=true" alt="Image 8">
+                                <p>Javascript</p>
+                            </a>
+                            <a href="https://docs.surfly.com/embed-api/">
+                                <img class="image-button" src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/Images/iframe_icon_136494.png?raw=true" alt="Image 9">
+                                <p>Embed</p>
+                            </a>
+
+
+
+-->
