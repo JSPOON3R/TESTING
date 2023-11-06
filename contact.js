@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.log("One or both query parameters are missing.");
     }
-});
 
 // Session
 var SurflySession;
@@ -73,6 +72,12 @@ Surfly.init(settings, function (initResult) {
     Surfly.on('session_created', function (session, event) {
         console.log('Session', session.followerLink, 'has just started');
     });
+}); 
 });
+   // When the image has loaded, display the iframe
 const iframe = document.getElementById('iframe');
-
+    const laptop = document.getElementById('laptop-png');
+    iframe.style.display = 'none';
+    laptop.addEventListener('load', function () {
+        iframe.style.display = 'block';
+    });
