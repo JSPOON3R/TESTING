@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    background-image:
+        url('https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/0316f061f3bbe78287c5fa469d4cdaae6e80cd95/Images/swivle-bg-top.svg');
+    background-repeat: no-repeat;
+    background-position:top;
+    background-size:cover;
+    background-attachment: fixed;
+    font-family: Nunito;
+}
+.logo {
+    position:fixed;
+    width: 5%;
+    height:auto;
+    top:0;
+    right:0;
+    margin:1%;
+}
+
+
+.container {
+position:fixed;
+display:flex;
+flex-direction:row;
+width:100%;
+height:100%;
+justify-content: center;
+}
+
+.backdrop {
+    position:absolute;
+    top:0;
+    width:65%;
+    height:90%;
+    margin-top:2%;
+    margin-bottom:2%;
+    background: linear-gradient(to top right, #f3ecec, white);
+    box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ccc;
+        border-radius: 8px;
+  }
+
+
+.top-row {
+    position: absolute;
+    display: flex;
+    top:2%;
+    width: 95%;
+    height: 23%;
+margin-left:2.5%;
+margin-right:2.5%;
+}
+
+/* Style the bottom row with two columns */
+.bottom-row {
+    position: absolute;
+    display: flex;
+    bottom:2%;
+    width: 95%;
+    height: 73%;
+margin-left:2.5%;
+margin-right:2.5%;
+}
+
+#top-left {
+    height:100%;
+    width: 69%;
+display:flex;
+flex-direction: column;
+overflow:hidden;
+}
+
+#top-right {
+    width: 31%;
+    height:100%;
+}
+
+.column-bottom {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#bottom-right {
+    width: 31%;
+    display:flex;
+    flex-direction: column;
+    overflow-y:scroll;
+    background-color: #fdf7f7;
+    border-radius: 8px;
+    border: 1px solid #ededed;
+}
+
+
+#bottom-left {
+    width: 69%;
+}
+s
+#website-subheading {
+    font-weight: bold;
+}
+
+.osx-window {
+    width: 98%;
+    height: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-left:0%;
+    margin-right:2%;
+    margin-top:0%;
+}
+
+.traffic-lights {
+    display: flex;
+    align-items: center;
+}
+
+.traffic-light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin:.2%;
+}
+
+.red {
+    background-color: #ff5f57;
+    margin-left: 15px;
+}
+
+.amber {
+    background-color: #ffbd2e;
+}
+
+.green {
+    background-color: #28c940;
+}
+
+.iframe-content {
+    padding-top: .2%;
+    padding-bottom: 0%;
+    width: auto;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+.window-title {
+    background-color: #fdeced;
+    color: #e54748;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 5px 10px;
+    margin-right: 1vw;
+}
+
+.window-description {
+    color: #848484;
+    font-weight: normal;
+    text-align: center;
+    flex: 1;
+    padding-top: 4vh;
+}
+
+.image-holder {
+    position:relative;
+
+}
+
+.image-holder img {
+    width: 50%;
+    height: auto;
+
+}
+
+.contact-details {
+    justify-content: right;
+    display: flex;
+    text-align: right;
+    margin-left: 10%;
+    margin-right: 2%;
+}
+
+.contact-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: normal;
+    justify-content: normal;
+    align-items: center;
+    justify-content: right;
+}
+
+.green-border {
+    border:#40ac56;
+    border-style:double;
+}
+
+.red-border {
+    border:#cf2e2e;
+border-style: dotted;
+}
+
+.link-buttons {
+    position:relative;
+    height:40%;
+    top:2%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.g2-reviews {
+    width:100% !important;
+    height:58%;
+    margin-top:2%;
+    position:relative;
+    border-radius: 8px;
+    overflow-x:scroll;
+}
+
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; /* Add spacing between images */
+    width:90%;
+    margin-right:5%;
+    margin-left:5%;
+    margin-bottom: 5%;;
+}
+
+.image-button {
+    /* Style your image buttons here */
+    display:flex;
+    flex-direction: column;
+    cursor: pointer;
+    align-self:baseline;
+    height:2vw;
+width:auto;
+}
+
+.link-subheading {
+    display: flex;
+    align-items: center;
+    font-size: .4vw;
+    color: #999;
+}
+.left-line,
+.right-line {
+    flex: 1;
+    height: .1px; /* Increase the line height for visibility */
+    background-color: #000; /* Adjust the line color */
+    margin: 0 15px; /* Adjust the spacing between lines and text */
+    border-right: 20px solid #999;
+}
+
+
