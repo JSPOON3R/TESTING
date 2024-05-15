@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Popup Example</title>
+    <script>
+        // Surfly snippet
+        (function (s, u, r, f, l, y) {
+            s[f] = s[f] || { init: function () { s[f].q = arguments } };
+            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+            l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        })
+            (window, document, 'script', 'Surfly');
+
+        // The preferred way is to set session options from the Surfly web interface,
+        // so in most cases you only need to provide a widget key below,
+        // but you can also override any options here
+
+        function startSurflySession() {
+            var settings = {
+                // Surfly session options can be set here, or at the Company/Plan levels.
+                widget_key: '99671227762b43c2a96daa066ee006e2',
+                private_session: false, // to make sure only logged in agents can join the call
+                password_required: false,
+                host_switching_allowed: true,
+                block_until_agent_joins: false,
+                videochat: false,
+                leader_redirect_url: "https://www.google.com",
+                follower_redirect_url: "https://www.google.com"
+            };
+
+            Surfly.init(settings, function (initResult) {
+                if (initResult.success) {
+                    // API calls can now be made!
+                    if (!Surfly.isInsideSession) {
+
+                        SurflySession = Surfly.session().startLeader()
+                            .on("session_created", function (session, event) {
+                                // display the PIN of the current session
+                                document.querySelector("#sessidtarget").innerText = session.pin;
+                            });
+                    }
+                }
+                else {
+                    console.log("Surfly was unable to initialize properly.")
+                }
+
+            });
+
+        }
+
+        function endSurflySession() {
+            SurflySession.end();
+        }
+
+
+
+
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .button {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 12px 10px;
+            line-height: 1.2;
+            font-size: .813em;
+            font-weight: light;
+        }
+
+        .button:hover {
+            background-color: #af2936;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2147483648;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .closeButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #6f7983;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .closeButton:hover {
+            background-color: #515961;
+        }
+
+        .endsessionbutton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #af2936;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .endsessionbutton:hover {
+            background-color: #841e28;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="button" id="startButton" onclick="startSurflySession()">Start Session</button>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <h2>Session Started</h2>
+            <p>Please share your pin with the Agent. Press "End Session" to cancel.</p>
+            <h3>Session Pin: <span id="sessidtarget">...</span></h3>
+            <button class="closeButton" id="closeButton">Go to Session</button>
+            <button class="endsessionbutton" id="endsessionbutton" onclick="endSurflySession()">End Session</button>
+        </div>
+    </div>
+
+    <script>
+        const startButton = document.getElementById("startButton");
+        const modal = document.getElementById("modal");
+        const closeButton = document.getElementById("closeButton");
+        const endsessionbutton = document.getElementById("endsessionbutton");
+
+        startButton.addEventListener("click", () => {
+            modal.style.display = "flex";
+        });
+
+        closeButton.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+        endsessionbutton.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+    </script>
+</body>
+
+</html>

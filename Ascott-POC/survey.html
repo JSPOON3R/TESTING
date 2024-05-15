@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .feedback-text {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .icons-container {
+    display: flex;
+  }
+  .icon {
+    cursor: pointer;
+    margin: 10px;
+    font-size: 48px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="feedback-text">How do you find this experience?</div>
+  <div class="icons-container">
+    <div class="icon" id="sad-face">&#128577;</div>
+    <div class="icon" id="neutral-face">&#128528;</div>
+    <div class="icon" id="happy-face">&#128522;</div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('sad-face').addEventListener('click', function() {
+    displayThankYou();
+  });
+
+  document.getElementById('neutral-face').addEventListener('click', function() {
+    displayThankYou();
+  });
+
+  document.getElementById('happy-face').addEventListener('click', function() {
+    displayThankYou();
+  });
+
+  function displayThankYou() {
+    document.querySelector('.container').innerHTML = '<div>Thank you!<br>Have a great day!</div>';
+    setTimeout(function() {
+        // Reload the main window after a 5-second delay
+        Window.location.reload();
+    }, 5000);
+}
+
+
+</script>
+
+</body>
+</html>

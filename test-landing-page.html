@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Landing Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            flex-direction: column;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #428236;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        h1 {
+            font-size: 48px;
+            color: #145f07;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #145f07;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #145f07;
+        }
+    </style>
+    <script>
+        // Surfly snippet
+        (function (s, u, r, f, l, y) {
+            s[f] = s[f] || { init: function () { s[f].q = arguments } };
+            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+            l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        })
+            (window, document, 'script', 'Surfly');
+
+        // The preferred way is to set session options from the Surfly web interface,
+        // so in most cases you only need to provide a widget key below,
+        // but you can also override any options here
+        var settings = {
+            widget_key: "638a1769085c43029306423920b7ed59",
+            hide_until_agent_joins: true,
+            start_with_videochat_on: true,
+            videochat_enabled: true,
+            start_with_fullscreen_videochat: true,
+            url: "https://www.adidas.com/",
+            hide_element_by_selector: ""
+
+        };
+
+        // Surfly.init() must be called before any other API call
+        Surfly.init(settings, function (init) {
+            if (init.success && !Surfly.isInsideSession) {
+                Surfly.session()
+                    .on("session_created", function (session, event) {
+                        // display the PIN of the current session
+                        document.querySelector("#sessidtarget").innerText = session.pin;
+                    })
+                    .startLeader();
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Mihai - Landing Page Example</h1>
+    <h2>Speak to Mihai</h2>
+    <h3>Session Pin: <span id="sessidtarget">...</span></h3>
+    <p>Please share your <b>Unique Pin Code</b> with Mihai and wait for them to join</p>
+</body>
+
+</html>

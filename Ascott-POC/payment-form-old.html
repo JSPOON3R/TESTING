@@ -1,0 +1,90 @@
+
+<html>
+  <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      form {
+        display: inline-block;
+        text-align: center;
+      }
+    
+    .progress-bar {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .circle {
+      height: 100%;
+      right: 0px;
+      position: absolute;
+      border: solid 5px  #a9a9a9;
+      border-top-color:  #a9d161;
+      border-radius: 50%;
+    }
+
+    .border {
+      width: 100%;
+      transform: rotate(135deg);  
+      animation: spin 1.3s steps(2) .2s infinite;
+      -webkit-animation: spin 1.3s linear infinite;
+
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+<body>
+  <form>
+    <!-- form fields go here -->
+    <form action="payment-processing.html" method="post">
+      <label for="card-number">Credit Card Number:</label>
+      <input type="text" id="card-number" name="card-number" placeholder="1234-5678-9012-3456" />
+      <br><br>
+      <label for="expiry-date">Expiry Date:</label>
+      <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" />
+      <br><br>
+      <label for="cvv">CVV:</label>
+      <input type="text" id="cvv" name="cvv" placeholder="123" />
+      <br><br>
+      <label for="card-holder-name">Card Holder Name:</label>
+      <input type="text" id="card-holder-name" name="card-holder-name" placeholder="John Doe" />
+      <br><br>
+      <button class="submit-button" type="submit">Proceed to Payment</button>
+    </form>
+
+  <div class="progress-bar" style="display:none;">
+    <div class="circle border">
+    </div>
+  </div>
+
+  <script>
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('.submit-button');
+    const spinner = document.querySelector('.progress-bar');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitButton.style.display = 'none';
+      spinner.style.display = 'block';
+      setTimeout(() => {
+        window.location.href = 'payment-success.html';
+      }, 5000); // 5 seconds
+    });
+  </script>
+</body>
+</html>
+

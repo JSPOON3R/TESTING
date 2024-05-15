@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .pin {
+            font-size: 48px;
+            text-align: center;
+        }
+    </style>
+
+    <!--SURFLY SCRIPT-->
+    <script>
+        //Add the Surfly snippet
+        (function (s, u, r, f, l, y) {
+            s[f] = s[f] || { init: function () { s[f].q = arguments } };
+            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+            l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        })
+            (window, document, 'script', 'Surfly');
+
+        // Surfly session options, you need to provide your own widget key
+        var settings = {
+            widget_key: "99671227762b43c2a96daa066ee006e2",
+            block_until_agent_joins: false,
+            hide_until_agent_joins: true,
+            //end_of_session_popup_url: "https://example.com/survey"  // link to a survey page that will be shown after session end
+        };
+
+        // Initialize the JS API
+        Surfly.init(settings, function (init) {
+        });
+
+        // sessionStart() is called immediately
+        function sessionStart() {
+
+            // Create a co-browsing session
+            Surfly.session.startLeader()
+                // When the session is started, show the session PIN so that it can be passed to the helpdesk agent
+                .on("session_created", function (session, event) {
+                    // display the session PIN
+                    var showId = SurflySession.Pin;
+                    console.log(SurflySession.Pin);
+                    Console.log(showId);
+                    document.getElementById('pin').innerHTML = showId;
+
+                })
+            
+                
+        }
+    </script>
+    <!--SURFLY SCRIPT-->
+
+</head>
+
+<body>
+    <div id="pin">
+        TEXT
+</div>
+</body>
+
+</html>

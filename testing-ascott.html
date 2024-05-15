@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFrame Page</title>
+    <script>
+        (function (s, u, r, f, l, y) {
+            s[f] = s[f] || { init: function () { s[f].q = arguments } };
+            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+            l.src = 'https://app.pr9191.surfly-x.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        })
+            (window, document, 'script', 'Surfly');
+
+        var settings = {
+            widget_key: 'fb038a065d834b27934b4b430d78b364',
+            widget_key_domain_list: "demo.surfly.com",
+            url: "www.google.com"
+        };
+        Surfly.init(settings, function (initResult) {
+            if (initResult.success) {
+                console.log('All good for happy cobrowsing!');
+                // it is now safe to use API
+                if (!Surfly.isInsideSession) {
+
+                }
+            } else {
+                console.log('Your browser lacks features required by Surfly');
+            }
+        });
+
+        function startSession() {
+            //Create (but not load) the Session
+            Surfly.session().create()
+                //Get the Session information
+                .on("session_created", function (session, event) {
+                    console.log("Leader Link: ", session.leaderLink);
+                    console.log("Follower Link: ", session.followerLink);
+                    console.log("Pin: ", session.pin);
+
+                    //Open session in a new window
+                    window.open(session.leaderLink, "_blank");
+
+                    //Send session URLs elsewhere e.g. if a customer starts a session here you might want to send the Agent URL to be loaded in their workspace instead of routing to the Surfly queue
+                    fetch('https://example.com/post_endpoint', {
+                        method: 'POST',
+                        body: session.leaderLink
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Message successfully posted:', data);
+                            // Do something with the response data
+                        })
+                        .catch(error => {
+                            console.error('Error posting message:', error);
+                        });
+                });
+        }
+
+
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #iframe-container {
+            width: 100%;
+            height: calc(100vh - 100px);
+            /* Adjust height according to your requirement */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        iframe {
+            width: 80%;
+            height: 80%;
+            border: none;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="iframe-container">
+        <iframe width="1024" height="768"
+            src="https://app.surfly.com/embed/queue/?agent_token=t6b8bd332dead462e980ec2e04afe5fb6"
+            allow="autoplay *; camera *; microphone *; display-capture *; geolocation *;">
+        </iframe>
+    </div>
+    <nav>
+        <button onclick="location.href='page1.html'">Page 1</button>
+        <button onclick="location.href='page2.html'">Page 2</button>
+        <button onclick="location.href='page3.html'">Page 3</button>
+    </nav>
+    <button onclick="startSession()">start session</button>
+</body>
+
+</html>

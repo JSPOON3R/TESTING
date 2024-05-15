@@ -1,0 +1,346 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Surfly integration with Amazon Connect</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="amazon-connect-v1.2.0-23-g430d835.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Inter-Loom';
+            src: url('https://cdn.loom.com/assets/fonts/inter/Inter-UI-Regular.woff2') format('woff2');
+        }
+        * {
+            font-family: 'Inter-Loom';
+        }
+        .grid-container {
+            display: grid;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            grid-template-areas:
+              'header'
+              'menu'
+              'main';
+            grid-template-rows: 10% 17% 73%;
+            grid-gap: 1px;
+        }
+        .grid-container > div {
+            font-size: 16px;
+        }
+        .header { 
+            grid-area: header;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            justify-content: center;
+            padding-top: 20px;
+            background-color: #e54748ff;
+            color: white;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+        }
+        .ccpContainer {
+            grid-area: menu;
+            display: grid;
+            grid-template-rows: 40% 60%; 
+            grid-template-columns: 20% 25% 55%; 
+            text-align: left;
+            color: #4a4a4a;
+            background-color: #F5F5F5;
+            border-style: groove;
+            padding: 10px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+        }
+        .ccpContainer div {
+            padding: 10px;
+        }
+        .surflyContainer {
+            grid-area: main;
+            margin-bottom: 10px;
+        }
+        .ccpContainer iframe {
+            display: none;
+        }
+        .myiframe {
+
+
+        }
+        .ccpContainer button {
+            position: relative;
+            display: block;
+            color: white;
+            width: 110px;
+            padding: 7px 10px;
+            margin-right: 10px;
+            border: none;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);;
+            cursor: pointer;
+            float: left;
+        }
+        #startSurfly {
+            background-color: #e54748ff;
+            border: 2px solid #e54748ff;
+        }
+        #startSurfly:hover {
+            background-color: white;
+            color: #4a4a4a;
+            border: 2px solid #00abba;
+        }
+        #goAvailable {
+            background-color: #e54748ff;
+            border: 2px solid #e54748ff;
+        }
+        #goAvailable:hover {
+            background-color: white;
+            color: #4a4a4a;
+            border: 2px solid #00abba;
+        }
+        #goOffline {
+            background-color: #4a4a4a;
+            border: 2px solid #4a4a4a;
+        }
+        #goOffline:hover {
+            background-color: white;
+            color: #4a4a4a;
+            border: 2px solid #4a4a4a;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <div class="header">
+            <p>Amazon Connect Custom CCP with Surfly Co-Browsing</p>
+        </div>
+        <div class="ccpContainer">
+            
+            <div class="grid-item">
+                <span>Welcome <span id="agentName"></span></span>
+            </div>
+            
+            <div class="grid-item">
+                <span>Status: <span id="currentStatus"></span></span>
+            </div>
+
+            <div class="grid-item" id="newContactDiv">
+                <span>Co-Browsing: <span id="newContact"></span></span>
+            </div>
+
+            <div class="grid-item">
+            </div>
+
+            <div class="grid-item">
+                <button id="goAvailable" onclick="goAvailable()">Go Available</button>
+                <button id="goOffline" onclick="goOffline()">Go Offline</button>
+            </div>
+           
+            <div class="grid-item">
+                <button id="startSurfly" onclick="document.getElementById('start_session').style.display='block'">Start New Session</button>
+                <button id="startSurfly" onclick="document.getElementById('session_queue').style.display='block'">Open Agent Queue</button>
+            </div>
+         
+
+        </div>  
+
+        <iframe style="display:none" id="start_session" width="900" height="500"
+        src="https://app.surfly.com/embed/start/?agent_token=t83eb3241ee024fc8928d9310968b1f33"
+        allow="autoplay *; camera *; microphone *; display-capture *; geolocation *;"
+        class="myiframe">
+    </iframe>
+
+    <iframe style="display:none" id="session_queue" width="900" height="500"
+    src="https://app.surfly.com/embed/queue/?agent_token=t83eb3241ee024fc8928d9310968b1f33"
+    allow="autoplay *; camera *; microphone *; display-capture *; geolocation *;"
+    class="myiframe">
+</iframe>
+
+
+    </div>
+
+    <script>
+        window.myCPP = window.myCPP || {};
+        var container = document.getElementsByClassName("ccpContainer")[0];
+        connect.core.initCCP(container, {
+        ccpUrl: "https://surfly-aws-cc.awsapps.com/connect/ccp-v2/",        
+        loginPopup: true,
+        loginPopupAutoClose: true,        
+        softphone: {
+            allowFramedSoftphone: true,
+        }
+        });
+
+        connect.contact(function(contact) {
+            console.log("Subscribing to events for contact");
+            window.myCPP.contact = contact;
+            if (contact.getActiveInitialConnection() && contact.getActiveInitialConnection().getEndpoint()) {
+                console.log("New contact is from " + contact.getActiveInitialConnection().getEndpoint().phoneNumber);
+                var callPopup = document.createElement("div");
+                callPopup.style.display = "block";
+                callPopup.style.zIndex = "21474835499";
+                callPopup.style.position = "fixed";
+                callPopup.style.borderRadius = "4px";
+                callPopup.style.height = "15%";
+                callPopup.style.width = "35%";
+                callPopup.style.background = "white";
+                callPopup.style.top = "15%";
+                callPopup.style.left = "50%";
+                callPopup.style.marginLeft = "-15%";
+                callPopup.style.boxShadow = "0px 5px 200px 10px #292a2e";
+                callPopup.style.padding = "1%";
+                
+                var ccpContainer = document.getElementsByClassName("ccpContainer")[0];
+                var popupContent = document.createElement("div");
+                popupContent.innerHTML = "Incoming call from: " + contact.getActiveInitialConnection().getEndpoint().phoneNumber;
+                popupContent.style.textAlign = "center";
+                popupContent.style.fontSize = "18px";
+                
+                var allowButton = document.createElement("button");
+                allowButton.innerHTML = "Accept";
+                allowButton.style.display = "inline-block";
+                allowButton.style.position = "absolute";
+                allowButton.style.left = "15px";
+                allowButton.style.bottom = "15px";
+                allowButton.style.padding = "5px 20px";
+                allowButton.style.boxShadow = "0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)";
+                allowButton.style.background = "#00abba";
+                allowButton.style.color = "white";
+                allowButton.style.fontSize = "16px";
+                allowButton.style.cursor = "pointer";
+                
+                var cancelButton = document.createElement("button");
+                cancelButton.innerHTML = "Cancel";
+                cancelButton.style.display = "inline-block";
+                cancelButton.style.position = "absolute";
+                cancelButton.style.left = "140px";
+                cancelButton.style.bottom = "15px";
+                cancelButton.style.padding = "5px 20px";
+                cancelButton.style.boxShadow = "0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)";
+                cancelButton.style.background = "#4a4a4a";
+                cancelButton.style.color = "white";
+                cancelButton.style.fontSize = "16px";
+                cancelButton.style.cursor = "pointer";
+
+                callPopup.appendChild(popupContent);
+                callPopup.appendChild(allowButton);
+                callPopup.appendChild(cancelButton);
+                ccpContainer.appendChild(callPopup);
+
+                allowButton.addEventListener("click", function() {
+                    callPopup.style.display = "none";
+                    var newContactDiv = document.getElementById("newContactDiv");
+                    newContact.innerHTML = contact.getActiveInitialConnection().getEndpoint().phoneNumber;
+                    cancelButton.innerHTML = "Hang up";
+                    cancelButton.style.left = null;
+                    cancelButton.style.bottom = null;
+                    cancelButton.style.marginLeft = "20px";
+                    newContact.appendChild(cancelButton);
+                    
+                    contact.accept({
+                        success: function() {
+                            console.log("The call has been accepted successfully");
+                        },
+                        failure: function() {
+                            console.log("There seems to be a problem accepting the call");
+                        }
+                    })
+                    cancelButton.addEventListener("click", function() {
+                        cancelButton.style.display = "none";
+                        newContact.innerHTML = "";
+                        contact.getInitialConnection().destroy()({
+                            success: function() {
+                                console.log("The call has been canceled successfully");
+                            },
+                            failure: function() {
+                                console.log("There seems to be a problem destroying the call");
+                            }           
+                        });
+                    })
+                })
+                cancelButton.addEventListener("click", function() {
+                    callPopup.style.display = "none";
+                    contact.getInitialConnection().destroy()({
+                        success: function() {
+                            console.log("The call has been canceled successfully");
+                        },
+                        failure: function() {
+                            console.log("There seems to be a problem destroying the call");
+                        }
+                    });
+                })
+            }
+            else {
+                console.log("This is an existing contact for this agent");
+            }
+        });
+
+        connect.agent(function(agent) {
+            window.myCPP.agent = agent;
+            agentName.innerHTML = agent.getName();
+            currentStatus.innerHTML = agent.getStatus().name;
+            console.log("Subscribing to events for agent " + agent.getName());
+            console.log("Agent is currently in status of " + agent.getStatus().name);
+        })
+
+        function goAvailable() {
+        var routableState = window.myCPP.agent.getAgentStates().filter(function (state) {
+            return state.type === connect.AgentStateType.ROUTABLE;
+        })[0];
+        window.myCPP.agent.setState(routableState, {
+            success: function () {
+                console.log("Set agent status to Available (routable) via Streams");
+                currentStatus.innerHTML = "Available";
+            },
+            failure: function () {
+                console.log("Failed to set agent status to Available (routable) via Streams");
+            }
+        });
+        }
+
+        function goOffline() {
+        var offlineState = window.myCPP.agent.getAgentStates().filter(function (state) {
+            return state.type === connect.AgentStateType.OFFLINE;
+        })[0];
+        window.myCPP.agent.setState(offlineState, {
+            success: function () {
+                console.log("Set agent status to Offline via Streams");
+                currentStatus.innerHTML = "Offline";
+            },
+            failure: function () {
+                console.log("Failed to set agent status to Offline via Streams");
+            }
+        });
+        }
+
+        var startButton = document.getElementById("startSurfly");
+        startButton.addEventListener("click", function() {
+                loadSurfly();
+                startButton.disabled = true;
+            })
+
+        function loadSurfly() {
+            $.ajax({
+            method: "POST",
+            url: "https://uat.surfly.com/v2/agents/access-token/?api_key=d6f89a54b3d7487d8c87ffc7f8ca2879",
+            data: { "email": "anastasia@surfly.com", "name": "Anastasia" }
+          })
+            .done(function(response) {
+                console.log(response);
+                var agentToken = response.agent_token;
+                var surflyContainer = document.getElementsByClassName("surflyContainer")[0];
+                var surflyIframe = document.createElement("iframe");
+                surflyIframe.style.width = "100%";
+                surflyIframe.style.height = "100%";
+                surflyIframe.src = "https://app.uat.surfly.com/embed/start/?agent_token=" + agentToken;
+                surflyContainer.appendChild(surflyIframe);
+            })
+            .fail(function(error) {
+                console.log(error);
+            });
+        }
+    </script>
+    
+</body>
+</html>

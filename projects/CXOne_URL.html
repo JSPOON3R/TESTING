@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Surfly Home Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: linear-gradient(to bottom, #ffffff, #ffe9e9); 
+            background-size: cover;
+            /* Adjust as needed */
+            background-attachment: fixed;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+
+        }
+
+        body::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #f7f7f7;
+            z-index: -1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align items to the top of the header */
+            padding: 10px;
+            width: 95%;
+        }
+
+        .logo-left,
+        .logo-right {
+            display: flex;
+            align-items: center;
+            margin: 1%;
+            /* Align the logos vertically in their containers */
+        }
+
+        .logo-left img,
+        .logo-right img {
+            max-width: 200px;
+            /* Set a maximum width for the logos, adjust as needed */
+            height: auto;
+            opacity: 60%;
+        }
+
+        .osx-window {
+            top: 35%;
+            width: 450px;
+            height: auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+        }
+
+        .window-title {
+            background-color: #fdeced;
+            color: #e54748;
+            border-radius: 1%;
+            overflow: none;
+            white-space: pre-wrap;
+            font-size: 100%;
+            padding: 1% 2%;
+            margin-top: 3%;
+            margin-left: 34%;
+        }
+
+        .traffic-lights {
+            display: flex;
+            align-items: center;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            margin-top: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .red {
+            background-color: #ff5f57;
+            margin-left: 15px;
+        }
+
+        .amber {
+            background-color: #ffbd2e;
+        }
+
+        .green {
+            background-color: #28c940;
+        }
+
+        .log-in-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5%;
+            overflow: hidden;
+            width: auto;
+        }
+
+        form {
+            width: 100%;
+            align-items: center;
+            display:contents;
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
+            color: #cf2e2e;
+            font-family: nunito, sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            /* Decrease font-weight for a more flattened appearance */
+            line-height: 1;
+            outline: none;
+            padding: 1rem 0rem;
+            text-align: center;
+            text-decoration: none;
+            width: 350px;
+            margin-top: 2%;
+        }
+
+        .select {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
+            color: #cf2e2e;
+            font-family: nunito, sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            /* Decrease font-weight for a more flattened appearance */
+            line-height: 1;
+            outline: none;
+            padding: 1rem;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 5%;
+            width: 350px;
+        }
+
+
+        input[type="submit"] {
+            padding: 3% 6%;
+            margin: 7%;
+            width: 40%;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            background-color: #cf2e2e;
+            box-sizing: border-box;
+            border-radius: 9px;
+            color: #ffffff;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #9a2222;
+
+        }
+    </style>
+    <script>
+        function filterOptions() {
+            var input = document.getElementById('searchInput');
+            var filter = input.value.toLowerCase();
+            var options = document.getElementsByTagName('option');
+            for (var i = 0; i < options.length; i++) {
+                var option = options[i];
+                var text = option.textContent || option.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    option.style.display = "";
+                } else {
+                    option.style.display = "none";
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo-left">
+            <img src="https://www.surfly.com/wp-content/uploads/2022/04/Surfly_header_NICECXOne-e1650916385786.png"
+                alt="Left Logo">
+        </div>
+        <div class="logo-right">
+        </div>
+    </header>
+
+    <div class="osx-window">
+        <div class="traffic-lights">
+            <div class="traffic-light red"></div>
+            <div class="traffic-light amber"></div>
+            <div class="traffic-light green"></div>
+        </div>
+        <div class="log-in-box">
+            <input type="text" id="searchInput" onkeyup="filterOptions()" placeholder="Search...">
+            <form action="/submit" method="post">
+                <select class="select" name="selectedOption">
+                    {% for option in options %}
+                    <option>{{ option }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" class="submit-button" value="Load Surfly">
+            </form>
+            
+        </div>
+    </div>
+
+</body>
+
+</html>

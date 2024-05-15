@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surfly: Ayush</title>
+    <!--Surfly JS-->
+   <script>
+    (function (s, u, r, f, l, y) {
+        s[f] = s[f] || { init: function () { s[f].q = arguments } };
+        l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+        l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+    })
+        (window, document, 'script', 'Surfly');
+</script>
+<script>
+var urlValue; // Declare urlValue in the global scope
+
+document.addEventListener('DOMContentLoaded', function () {
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Function to get the value of a query parameter from the URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Get and store the values of query parameters as variables
+    const nameValue = getQueryParam("name");
+    urlValue = getQueryParam("url"); // Assign urlValue in the global scope
+
+    // Check if the parameters exist and are not empty
+    if (nameValue && urlValue) {
+        // You can use the values of nameValue and urlValue here
+        const capitalizedName = capitalizeFirstLetter(nameValue);
+
+        const greeting = "Hey " + capitalizedName;
+        console.log("Value of greeting: " + greeting);
+        console.log("Value of url: " + urlValue);
+        const outputTextElement = document.getElementById("customer-name");
+        outputTextElement.textContent = greeting;
+
+        // Now you can run the second script here
+        // Include the second script's content here
+    } else {
+        console.log("One or both query parameters are missing.");
+    }
+});
+</script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            background-image:
+                url('https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/dd38063da1c717c1742cd91347cb104156ea6644/Mask%20group.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            overflow:hidden;
+            flex-wrap: wrap;
+            display: flex;
+        }
+
+
+        body::before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 650px;
+            left: 0;
+            width: 100vw;
+            height: 2px;
+            background-color: #f0f0f0;
+            z-index: -1;
+            color: #f7fff6;
+        }
+     
+            .page {
+                display: none; 
+                text-align: center;
+            }
+
+            .close {
+                float: right;
+                font-size: .874vw;
+                font-weight: bold;
+                cursor: pointer;
+                color:#cf2e2e;
+                padding-right: 0;
+                padding-top: 0;
+            }
+
+
+            .image-text-container {
+                justify-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+
+
+            .surflylogo {
+                max-width: 6vw !important;
+                max-height: auto !important;
+                margin: 1vw !important;
+                position: relative !important;
+                border-radius: 0vw !important;
+                opacity: 100% !important;
+                box-shadow: none !important;
+                clip-path: none !important;
+
+            }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            width: 100vw;
+            margin-bottom: 1px;
+            margin-left: 1vw;
+            height:60%;
+        }
+
+        .top-container {
+            display: flex;
+            align-items: center;
+            height: 40%;
+            padding-top: 3vh;
+            padding-left: 4vw;
+            padding-right: 4vw;
+            padding-bottom: 3vh;
+            overflow:none;
+        }
+
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            width: 30vw;
+            padding-right: 4vw;
+            margin-top:1vh;
+        }
+
+        .contact-div {
+            display: flex;
+            flex-direction: row;
+            padding-left: 16vw;
+        }
+
+        .logo {
+            width: 8vw;
+            height: auto;
+        }
+
+        .heading {
+            font-weight: normal;
+            font-size: 2vw;
+            margin-top: 6vh;
+            margin-bottom: 0vh;
+        }
+
+        .subheading {
+            font-size: 1vw;
+            font-weight: lighter;
+            color: #999;
+        }
+
+        .instructions {
+            width: 45vw;
+            height: 6vh;
+            margin: 1vw;
+        }
+
+        .osx-window {
+            width: 45vw;
+            height: 60vh;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 1vw;
+        }
+
+        .traffic-lights {
+            display: flex;
+            align-items: center;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background-color: #ff5f57;
+            margin-left: 15px;
+        }
+
+        .amber {
+            background-color: #ffbd2e;
+        }
+
+        .green {
+            background-color: #28c940;
+        }
+
+        .iframe-content {
+            padding-top: 2%;
+            padding-bottom: 2%;
+            width: auto;
+            height: 100%;
+            border: none;
+        }
+
+        .window-title {
+            background-color: #fdeced;
+            color: #e54748;
+            border-radius: 5px;
+            margin-top: 20px;
+            padding: 5px 10px;
+            margin-right: 1vw;
+        }
+
+        .window-description {
+            color: #848484;
+            font-weight: normal;
+            text-align: center;
+            flex: 1;
+            padding-top: 4vh;
+        }
+        .image-holder  img{
+            width: 10vw;
+            height: 10vw;
+        }
+        
+
+
+        /* MOBILE VIEW */
+        /* WIDTH*/
+        @media screen and (max-width: 1300px) {
+            .top-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-text {
+                width: 70vw;
+                text-align: center;
+                margin-top: 45px;
+                margin-bottom: 20px;
+                align-items: center;
+                padding-right: 0;
+            }
+            .logo {
+                width: 110px;
+                height: auto;
+                margin-bottom: 15px;
+            }
+
+            .heading {
+                font-size: 30px;
+            }
+
+            .subheading {
+                font-size: 20px;
+            }
+
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .window-description {
+            visibility:hidden;
+        }
+        .window-title {
+            margin-right: 3vw;
+        }
+
+            .osx-window {
+                width: 90%;
+                height: 600px;
+            }
+        }
+        /* HEIGHT*/
+        @media screen and (max-height: 600px) {
+            .osx-window {
+            height: 400px;
+        }
+        }
+    </style>
+</head>
+
+
+<main>
+    <div class="top-container">
+        <div class="info-text">
+            <img src="https://logos-download.com/wp-content/uploads/2018/09/Surfly_Logo.png" alt="Logo" class="logo">
+            <h1 class="heading" id="customer-name">Experience Collaborative Web Browsing in Real-Time</h1>
+
+            <h3 class="font-alt first">
+                <span class="font-bold font-primary">1.</span> Keep this browser tab open.
+            </h3>
+            <h3 class="font-alt">
+                <span class="font-bold font-primary">2.</span> Send this link to a colleague.
+            </h3>
+            <h3 class="font-alt copy-link">
+                <a href="" class="follower-link" target="_blank">Follower Link</a> <br class="only-sm">
+                <button class="copy-link-button" data-clipboard-target=".follower-link">Copy<img
+                        src="assets/images/link.svg" width="20" />
+                </button>
+
+            </h3>
+            <h3 class="font-alt last">
+                <span class="font-bold font-primary">3.</span> Start co-browsing. <span class="font-medium">It's
+                    really that simple!</span>
+            </h3>
+        </div>
+        <div class="contact-div">
+                <div class="">
+                    <h3 class="">
+                        Want to know more?<br />
+                        Schedule a demo with Ayush <a href=https://calendly.com/surfly-yes-we-ken target="_blank"
+                            style="cursor:pointer">here.</a>
+                    </h3>
+                    <div class="image-holder">
+                        <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/ayush-demo-img.png?raw=true" />
+                    </div>
+                </div>
+
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="osx-window">
+            <div class="traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light amber"></div>
+                <div class="traffic-light green"></div>
+                <div class="window-description" id="window-description1">Test your own website with Surfly</div>
+                <div class="window-title" id="you">www.website.com</div>
+            </div>
+            <iframe src="" class="iframe-content"
+                id="iframe"></iframe>
+        </div>
+        <div class="instructions">
+
+
+                <h3 class="font-alt first">
+                    <span class="font-bold font-primary">1.</span> Keep this browser tab open.
+                </h3>
+                <h3 class="font-alt">
+                    <span class="font-bold font-primary">2.</span> Send this link to a colleague.
+                </h3>
+                <h3 class="font-alt copy-link">
+                    <a href="" class="follower-link" target="_blank">Follower Link</a> <br class="only-sm">
+                    <button class="copy-link-button" data-clipboard-target=".follower-link">Copy<img
+                            src="assets/images/link.svg" width="20" />
+                    </button>
+
+                </h3>
+                <h3 class="font-alt last">
+                    <span class="font-bold font-primary">3.</span> Start co-browsing. <span class="font-medium">It's
+                        really that simple!</span>
+                </h3>
+        </div>
+
+       
+        
+
+    </div>
+
+</main>
+</body>
+
+</html>
