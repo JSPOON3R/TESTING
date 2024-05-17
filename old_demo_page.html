@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Browse Demo</title>
+    <!--Let's Connect JS-->
+    <script type="text/javascript" async>
+        (function(d,s){
+        var l=d.createElement(s),e=d.getElementsByTagName(s)[0];
+        l.async=true;l.type='text/javascript';
+        l.src='https://app.letsconnect.at/embed.js';
+        l.id='DGc2LO7Z2EDuEeJmKaBb';
+        e.parentNode.insertBefore(l,e);})(document,'script');</script>
+    <!--Surfly JS-->
+    <script>
+        (function (s, u, r, f, l, y) {
+            s[f] = s[f] || { init: function () { s[f].q = arguments } };
+            l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+            l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        })
+            (window, document, 'script', 'Surfly');
+    </script>
+    <script>
+        var SurflySession;
+
+            var settings = {
+                // Surfly session options can be set here, or at the Company/Plan levels.
+                widget_key: 'd97af65cf4d24a7f86783f8cd38cfe8e',
+                private_session: false, // to make sure only logged in agents can join the call
+                password_required: false,
+                host_switching_allowed: true,
+                block_until_agent_joins: false,
+                videochat: false,
+                follower_redirect_url: "https://demo.surfly.com",
+                leader_redirect_url: "https://demo.surfly.com",
+            };
+
+            Surfly.init(settings, function (initResult) {
+                if (initResult.success) {
+                    // API calls can now be made!
+                    if (!Surfly.isInsideSession) {
+                        console.log("Surfly loaded successfully!")
+                    }
+                }
+                else {
+                    console.log("Surfly was unable to initialize properly.")
+                }
+                
+                });
+            
+
+        function startSurflySession() {
+            var urlinput = document.querySelector('#session_url_input').value;
+            SurflySession = Surfly.session({ start_with_chat_open: false, start_with_videochat_on: false, url: urlinput }).startLeader("#leader");
+                        var errorMessage = document.getElementById('errorMessage');
+                        errorMessage.style.display = 'none';
+                        Surfly.on('session_created', function (session, event) {
+                    console.log('Session', session.followerLink, 'has just started');
+                    var iframe = document.getElementById("follower");
+                    iframe.src = session.followerLink;})};
+
+
+        function endSurflySession() {
+            SurflySession.end();
+
+        }
+    </script>
+    <!--DISPLAY FUNCTIONS-->
+    <script>
+        function show_session_buttons() {
+            document.getElementById("session_inactive_button").className = "block";
+            document.getElementById("session_active_button").className = "submit-button";
+            document.getElementById('you').style.color = '#f7fff6';
+            document.getElementById('you').style.backgroundColor = '#92e683';
+            document.getElementById('session_url_input').style.visibility = "hidden";
+        }
+
+        function show_inactive_buttons() {
+            document.getElementById("session_active_button").className = "block";
+            document.getElementById("session_inactive_button").className = "submit-button";
+            document.getElementById('you').style.color = '#e54748';
+            document.getElementById('you').style.backgroundColor = '#fdeced';
+            document.getElementById('session_url_input').style.visibility = "visible";
+        }
+    </script>
+    <!--ERRORS-->
+    <script>
+        function validateURL() {
+            var urlInput = document.getElementById('session_url_input').value;
+            var urlRegex = /^(?:(?:https?|ftp):\/\/)?(?:www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?$/;
+
+            if (urlRegex.test(urlInput)) {
+                // Valid URL, execute button action
+                startSurflySession();
+                show_session_buttons();
+                var windowdesc1 = document.getElementById("window-description1");
+                windowdesc1.style.visibility = 'hidden';
+                var windowdesc2 = document.getElementById("window-description2");
+                windowdesc2.style.visibility = 'hidden';
+            } else {
+                // Invalid URL, display error message
+                var errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.display = 'block';
+
+            }
+        }
+    </script>
+     <!--pop up js-->
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const openModalBtn = document.getElementById("openModalBtn");
+            const closeModalBtn = document.getElementById("closeModalBtn");
+            const closePopupBtn = document.getElementById("closePopupBtn");
+            const prevPageBtn = document.getElementById("prevPageBtn");
+            const nextPageBtn = document.getElementById("nextPageBtn");
+            const pages = document.querySelectorAll(".page");
+            let currentPage = 0;
+
+            openModalBtn.addEventListener("click", function () {
+                document.getElementById("myModal").style.display = "block";
+                showPage(currentPage);
+            });
+
+            closeModalBtn.addEventListener("click", function () {
+                document.getElementById("myModal").style.display = "none";
+            });
+
+            closePopupBtn.addEventListener("click", function () {
+                document.getElementById("myModal").style.display = "none";
+            });
+
+            prevPageBtn.addEventListener("click", function () {
+                showPage(currentPage - 1);
+            });
+
+            nextPageBtn.addEventListener("click", function () {
+                showPage(currentPage + 1);
+            });
+
+            function showPage(pageIndex) {
+                pages[currentPage].style.display = "none";
+                currentPage = pageIndex;
+                pages[currentPage].style.display = "block";
+                prevPageBtn.disabled = currentPage === 0;
+                nextPageBtn.disabled = currentPage === pages.length - 1;
+            }
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            background-image:
+                url('https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/dd38063da1c717c1742cd91347cb104156ea6644/Mask%20group.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            /* Adjust as needed */
+            background-attachment: fixed;
+            overflow: scroll;
+            flex-wrap: wrap;
+            display: flex;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        body::before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 650px;
+            left: 0;
+            width: 100vw;
+            height: 2px;
+            background-color: #f0f0f0;
+            z-index: -1;
+            color: #f7fff6;
+        }
+        .modal {
+            display:none;
+            position: fixed;
+            z-index: 99999;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content-popup {
+            margin: 2% auto;
+            padding: 2% 2%;
+            width: 37vw;
+            text-align: center;
+            border-radius: .5vw;
+            border: 0;
+            background-color: #fdeced;
+        }
+
+            .modal-buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .page {
+                display: none; 
+                text-align: center;
+            }
+
+            .close {
+                float: right;
+                font-size: .874vw;
+                font-weight: bold;
+                cursor: pointer;
+                color:#cf2e2e;
+                padding-right: 0;
+                padding-top: 0;
+            }
+
+
+
+            #prevPageBtn:disabled, #nextPageBtn:disabled {
+                background-color: #ececec;
+                cursor: not-allowed;
+                display: hide;
+            }
+
+            .page h1 {
+                text-align: center;
+                font-size: 1.5vw !important;
+                color: #848484;
+                font-weight: lighter;
+                font: nunito, sans-serif !important;
+                margin: 0.837vw !important;
+                margin-top: .9vw !important;
+                margin-bottom: .1vw !important;
+            }
+
+            .page h2 {
+                text-align: left;
+                font-size: 1vw !important;
+                color: #cf2e2e;
+                font-weight: 400;
+                font: nunito, sans-serif !important;
+                margin: 0.837vw !important;
+                margin-top: 1vw !important;
+                margin-bottom: .05vw !important;
+            }
+
+            .page img {
+                max-width: 35vw;
+                height: auto;
+                border: 0vw solid #f0f0f0;
+                border-radius: 6%;
+                margin: 0.056vw !important;
+                clip-path: inset(26px 7px 26px 7px);
+                opacity: 45%;
+
+            }
+
+            .popuptext {
+                flex: 1;
+                padding: .5vw;
+                margin-bottom: 1.5vw;
+                text-align: center;
+                background-color: #ffe7e8;
+                border-radius: 4%;
+                color: #434343;
+                font-size: .7vw !important;
+                font-weight: 100;
+                font: nunito, sans-serif !important;
+                width:25vw;
+            }
+
+            .image-text-container {
+                justify-content: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+
+
+            .surflylogo {
+                max-width: 6vw !important;
+                max-height: auto !important;
+                margin: 1vw !important;
+                position: relative !important;
+                border-radius: 0vw !important;
+                opacity: 100% !important;
+                box-shadow: none !important;
+                clip-path: none !important;
+
+            }
+
+
+
+
+
+        .iframe-container {
+            display: flex;
+            justify-content: center;
+            width: 100vw;
+            margin-bottom: 1px;
+        }
+
+        .top-container {
+            display: flex;
+            align-items: center;
+            padding-top: 6vh;
+            padding-left: 4vw;
+            padding-right: 4vw;
+            padding-bottom: 3vh;
+        }
+
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            width: 30vw;
+            padding-right: 4vw;
+        }
+
+        .input-url-div {
+            display: flex;
+            flex-direction: row;
+            padding-left: 16vw;
+        }
+
+        .more-info-container {
+            display: flex;
+            flex-direction: row;
+            padding-left: 16vw;
+            margin-bottom:3vh;
+        }
+
+        .button-container{
+            display:flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .logo {
+            width: 8vw;
+            height: auto;
+        }
+
+        .heading {
+            font-weight: normal;
+            font-size: 2vw;
+            margin-top: 2vh;
+            margin-bottom: 0vh;
+        }
+
+        .subheading {
+            font-size: 1vw;
+            font-weight: lighter;
+            color: #999;
+        }
+
+
+        .input-field {
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
+            color: #cf2e2e;
+            font-family: nunito, sans-serif;
+            font-size: 1vw;
+            font-weight: 300;
+            padding: 1rem;
+            text-align: center;
+            width: 24vw;
+            margin-right: .2vw;
+            margin-left: 1vw;
+        }
+        .input:focus {
+            border: 1px solid #cf2e2e !important;
+        }
+
+        .submit-button {
+            background-color: #7cadbf;
+            box-sizing: border-box;
+            border-radius: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            font-family: nunito, sans-serif;
+            font-size: 1rem;
+            font-weight: 100;
+            padding: 1rem 1.2rem;
+            border: 0;
+            touch-action: manipulation;
+            margin-left:0.5vw;
+            white-space: nowrap;
+        }
+
+        .submit-button:hover {
+            background-color: #2288ad;
+        }
+
+        .more-info-button {
+            background-color: #fff;
+            box-sizing: border-box;
+            border-radius: 12px;
+            color: #757575;
+            cursor: pointer;
+            font-family: nunito, sans-serif;
+            font-size: .90rem;
+            font-weight: 70;
+            padding: 1rem 1.2rem;
+            touch-action: manipulation;
+            margin-left:0.5vw;
+            height:2vh;
+            display:flex;
+            flex-wrap: wrap;
+            align-content: center;
+            opacity:70%;
+            border: 0;
+            white-space: nowrap;
+        }
+
+        .more-info-button:hover {
+            color: #cf2e2e;
+            opacity:100%;
+        }
+
+        #sales-button {
+            background-color: #cf2e2e;
+            color: #ffffff;
+        }
+
+        #sales-button:hover {
+            color: #ffffff;
+            opacity:100%;
+        }
+
+        .instructions-button {
+            border: .05vw solid #cf2e2e;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            border-radius: 12px;
+            color: #cf2e2e;
+            cursor: pointer;
+            font-family: nunito, sans-serif;
+            font-size: 1rem;
+            font-weight: 100;
+            padding: 0rem 1.2rem;
+            touch-action: manipulation;
+            margin-left: .5vw;
+            letter-spacing: .035vw;
+            display:none;
+        }
+
+
+
+        .osx-window {
+            width: 45vw;
+            height: 60vh;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            margin: 1vw;
+        }
+
+        .traffic-lights {
+            display: flex;
+            align-items: center;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .red {
+            background-color: #ff5f57;
+            margin-left: 15px;
+        }
+
+        .amber {
+            background-color: #ffbd2e;
+        }
+
+        .green {
+            background-color: #28c940;
+        }
+
+        .iframe-content {
+            padding-top: 2%;
+            padding-bottom: 2%;
+            width: auto;
+            height: 100%;
+            border: none;
+        }
+
+        .window-title {
+            background-color: #fdeced;
+            color: #e54748;
+            border-radius: 5px;
+            margin-top: 20px;
+            padding: 5px 10px;
+            margin-right: 1vw;
+        }
+
+        .window-description {
+            color: #848484;
+            font-weight: normal;
+            text-align: center;
+            flex: 1;
+            padding-top: 4vh;
+        }
+
+        .errormess {
+            color: #e54748;
+            border-radius: 10px;
+            font-family: nunito, sans-serif;
+            font-size: 15px;
+            font-weight: 300;
+            padding: 1px 10px;
+            position: absolute;
+            right: 4vw;
+            top: 2vh;
+            margin-right: 1px;
+            margin-top: 1px;
+            display: none;
+            
+        }
+
+        .block {
+            display: none !important;
+        }
+
+
+        /* MOBILE VIEW */
+        /* WIDTH*/
+        @media screen and (max-width: 1300px) {
+            .top-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-text {
+                width: 70vw;
+                text-align: center;
+                margin-top: 45px;
+                margin-bottom: 20px;
+                align-items: center;
+                padding-right: 0;
+            }
+
+            .input-url-div {
+                width: 70vw;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-left: 0vw;
+            }
+
+            .logo {
+                width: 110px;
+                height: auto;
+                margin-bottom: 15px;
+            }
+
+            .heading {
+                font-size: 30px;
+            }
+
+            .subheading {
+                font-size: 20px;
+            }
+
+            .iframe-container {
+                flex-direction: column;
+                align-items: center;
+                width:auto;
+            }
+            .window-description {
+            visibility:hidden;
+        }
+        .window-title {
+            margin-right: 3vw;
+        }
+
+            .osx-window {
+                width: 90%;
+                height: 600px;
+            }
+
+            .input-url-div {
+                width:auto;
+            }
+
+            .input-field {
+                font-size: 15px;
+                width: 450px;
+                margin-bottom: 20px;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .submit-button {
+                margin-bottom:30px;
+            }
+
+            .more-info-container {
+                padding-left: 0;
+                align-self:center;
+            }
+
+
+            .errormess {
+            top: 0vh;
+            text-align: center;
+            align-items: center;
+            right:0;
+            margin-top:0;
+        }
+        .instructions-button {
+            display:none;
+        }
+        }
+        /* HEIGHT*/
+        @media screen and (max-height: 600px) {
+            .osx-window {
+            height: 400px;
+        }
+        }
+    </style>
+</head>
+
+
+<main>
+
+    <!--INSTRUCTIONS-->
+    <div id="myModal" class="modal">
+        <div class="modal-content-popup">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <div class="page">
+                <img class="surflylogo"
+                src="https://logos-download.com/wp-content/uploads/2018/09/Surfly_Logo.png">
+                <div class="image-text-container">
+                    <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/you-them.gif?raw=true"
+                        alt="Image 2">
+                        <h2>Why can I see two windows?</h2>
+                    <p class="popuptext">This page displays both your screen and the screen of your guest.<br><br> In a normal session, these windows would be on two different computers<br><br> For demo purposes, we have put them side by side.<br><br> The window on the left is you. The window on the right is your guest.
+                    </p>
+                </div>
+            </div>
+            <div class="page">
+                <img class="surflylogo"
+                src="https://logos-download.com/wp-content/uploads/2018/09/Surfly_Logo.png">
+                <div class="image-text-container">
+                    <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/you-them2.gif?raw=true"
+                        alt="Image 3">
+                        <h2>How can I test the co-browsing experience?</h2>
+                    <p class="popuptext">The left page is your window and is a regular browsing session<br><br>Treat the left window like your own browser explore the web<br><br> The right window is your guest's window<br><br>Your guest can see what you are doing and annotate</p>
+                </div>
+            </div>
+            <div class="page">
+                <img class="surflylogo"
+                src="https://logos-download.com/wp-content/uploads/2018/09/Surfly_Logo.png">
+                <div class="image-text-container">
+                    <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/control.gif?raw=true"
+                        alt="Image 3">
+                        <h2>What if my guest wants to take control?</h2>
+                    <p class="popuptext">To begin with you (left window) are in control of the session<br><br>Your guest can ask to take control<br><br>You can approve or reject this request<br><br>If approved, your guest will now lead navigation. You can watch and annotate.</p>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="prevPageBtn" class="instructions-button" disabled>Previous</button>
+                <button id="nextPageBtn" class="instructions-button">Next</button>
+                <button id="closePopupBtn" class="submit-button"
+                    onclick="startSurflySession()">Try it</button>
+            </div>
+        </div>
+    </div>
+    <!--INSTRUCTIONS END-->
+
+
+
+
+
+
+    <div class="errormess" id="errorMessage">
+        <p><b>OOPS! </b>Make sure that the URL is formatted
+            <i>www.yourwebsite.com</i> and try again
+        </p>
+    </div>
+
+    <div class="top-container">
+        <div class="info-text">
+            <img src="https://logos-download.com/wp-content/uploads/2018/09/Surfly_Logo.png" alt="Logo" class="logo">
+            <h1 class="heading">Experience Collaborative Web Browsing in Real-Time</h1>
+            <h2 class="subheading">Surfly enables users to securely and collaboratively surf the full web together
+                within a session.</h2>
+        </div>
+        <div class="button-container">
+            <div class="more-info-container">
+                <a href="https://www.surfly.com/co-browsing/">
+                <button id="about-button" type="submit" class="more-info-button">About Co-browsing</button> </a>
+                <a href="https://docs.surfly.com/">
+                <button id="tech-docs-button" type="submit" class="more-info-button">Tech Docs</button> </a>
+                <a href="https://www.surfly.com/all-features/">
+                <button id="features-button" type="submit" class="more-info-button">Features</button> </a>
+                <a href="https://www.surfly.com/blog/">
+                <button id="blog-button" type="submit" class="more-info-button">Blog</button> </a>
+                <a href="https://www.surfly.com/request-a-demo/">
+                <button id="sales-button" type="submit" class="more-info-button">Contact Sales</button> </a>
+            </div>
+        <div class="input-url-div">
+            <input type="text" placeholder="Enter any valid URL..." class="input-field" id="session_url_input">
+            <button id="session_inactive_button" type="submit" class="submit-button" onclick="validateURL()">Start
+                Session</button>
+            <button id="session_active_button" type="submit" class="block"
+                onclick="show_inactive_buttons();endSurflySession()">End Session</button>
+                <button id="openModalBtn" class="instructions-button">Open Tutorial</button>
+        </div>
+    </div>
+    </div>
+    <div class="iframe-container">
+
+        <div class="osx-window">
+            <div class="traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light amber"></div>
+                <div class="traffic-light green"></div>
+                <div class="window-description" id="window-description1">This window will be your browser</div>
+                <div class="window-title" id="you">You</div>
+            </div>
+            <iframe src="https://demo.surfly.com/pages/facing_right.html" class="iframe-content"
+                id="leader"></iframe>
+        </div>
+
+        <div class="osx-window">
+            <div class="traffic-lights">
+                <div class="traffic-light red"></div>
+                <div class="traffic-light amber"></div>
+                <div class="traffic-light green"></div>
+                <div class="window-description" id="window-description2">This window will be the other person's browser</div>
+                <div class="window-title">Them</div>
+            </div>
+            <iframe src="https://demo.surfly.com/pages/facing_left.html" class="iframe-content"
+                id="follower"></iframe>
+        </div>
+
+    </div>
+
+</main>
+</body>
+
+</html>
