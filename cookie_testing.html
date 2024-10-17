@@ -2,56 +2,200 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cross Origin Cookie Testing</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross Origin Cookie Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            position: relative;
+        }
 
-    .container {
-      display: flex;
-      gap: 20px;
-      /* Space between the iframes */
-    }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
 
-    iframe {
-      width: 1000px;
-      height: 800px;
-      border: 2px solid #ccc;
-    }
+        iframe {
+            width: 1000px;
+            height: 800px;
+            border: 2px solid #ccc;
+        }
 
-    .iframe-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .iframe-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    h2 {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-  </style>
+        h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .api-button {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .button {
+            background-color: white;
+            border: 2px solid #c72323;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 0;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .button img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+        }
+
+        .button-label {
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+        }
+
+        .left-button {
+            left: 20px;
+        }
+
+        .right-button {
+            right: 20px;
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Second iframe with Plausible -->
     <div class="iframe-container">
-      <h2>Tableau: <i>cross origin iframe</i></h2>
-      <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" 
-        allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies">></iframe>
+        <h2>Tableau: <i>cross origin iframe</i></h2>
+        <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
+            allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies">
+        </iframe>
     </div>
-  </div>
+    <div class="api-button left-button">
+        <div class="button" onclick="startRestApiSession()">
+            <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
+                alt="REST API Icon">
+        </div>
+        <div class="button-label">REST API</div>
+    </div>
+    <div class="api-button right-button">
+        <div class="button" onclick="startJavascriptSession()">
+            <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
+                alt="JavaScript API Icon">
+        </div>
+        <div class="button-label">JS API</div>
+    </div>
+    <script>
+        function startJavascriptSession() {
+            (function (s, u, r, f, l, y) {
+                s[f] = s[f] || { init: function () { s[f].q = arguments } };
+                l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+                l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+            })(window, document, 'script', 'Surfly');
+
+            var SurflySession;
+            var settings = {
+                "alternative_proxy_enabled": true,
+                "anonymous_users_can_share_camera": true,
+                "anyone_can_deactivate_space": true,
+                "block_until_agent_joins": true,
+                "chat_enabled": true,
+                "default_invitations_enabled": true,
+                "document_editor_enabled": true,
+                "download_trigger_enabled": true,
+                "filesharing_enabled": true,
+                "host_switching_allowed": true,
+                "invitations_allowed": true,
+                "multileader": true,
+                "native_selects": true,
+                "new_urls_allowed": true,
+                "non_hosts_can_open_tabs": true,
+                "original_file_download_allowed": true,
+                "participants_can_request_to_interact": true,
+                "screensharing_enabled": true,
+                "session_start_confirmation": true,
+                "start_with_invite_modal": true,
+                "videochat_enabled": true,
+                "default_videochat_fullscreen_mode": "grid",
+                "default_videochat_mode": "floating",
+                "widget_key": "99671227762b43c2a96daa066ee006e2",
+                "tags": [
+                    "Session-Builder"
+                ]
+            };
+
+            Surfly.init(settings, function (init) {
+                if (init.success && !Surfly.isInsideSession) {
+                    console.log("init success");
+                    SurflySession = Surfly.session().create()
+                        .on("session_created", function (session, event) {
+                            SurflySession.startLeader();
+                        });
+                }
+            });
+        };
+
+        function startRestApiSession() {
+            const apiUrl = 'https://surfly.com/v2/sessions/?api_key=99671227762b43c2a96daa066ee006e2';
+            const requestBody = {
+                "url": "https://prod-uk-a.online.tableau.com/#/site/databooster/home"
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const leaderLink = data.leader_link;
+                    if (leaderLink) {
+                        window.location.href = leaderLink;
+                    } else {
+                        console.error('Leader link not found in response');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during API request:', error);
+                });
+        }
+
+    </script>
 </body>
+
 </html>
