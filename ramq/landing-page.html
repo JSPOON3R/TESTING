@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Builder</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://demo.surfly.com/resources-common/icons/Favicon-PNG.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://demo.surfly.com/css-common/surfly-javascript-style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <style>
+        :root {
+            --primary: #4d4d4d;
+            --secondary: #b2b2b2;
+            --font: 'Nunito', sans-serif;
+            --background-dark: #4d4d4d;
+            --modal-background: #2f2f2f;
+            --text-color: #e0e0e0;
+            --surfly-red: #c72323;
+            --surfly-dark-blue: #7cadbf;
+        }
+
+        body {
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: var(--font);
+            background: var(--background-dark);
+            color: var(--text-color);
+            height: calc(100vh - 40px);
+            width: calc(100vw - 40px);
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            align-items: flex-end;
+            align-content: center;
+            margin-bottom: 30px;
+            margin-right: 5vw;
+            margin-left: 2vw;
+            color: var(--text-color);
+            opacity:40%;
+        }
+
+        header img {
+            width: 5vw;
+            height: auto;
+            align-self:end;
+        }
+
+        img.selected {
+            outline: 4px solid var(--surfly-dark-blue);
+            box-sizing: border-box;
+            border-radius: 50%;
+            /* Ensure the border is circular */
+        }
+
+        .title {
+            width:100%;
+            display:flex;
+            justify-content: left;
+            margin-left: 3%;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-weight: lighter;
+            font-size: 3em;
+        }
+
+        .title p {
+            font-size: 1em;
+            font-weight: lighter;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .category-container {
+            width: 60%;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+
+        .roles {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            margin-right: 20px;
+        }
+
+        .settings {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            margin-right: 20px;
+        }
+
+        .settings .category,
+        .roles .category {
+            background-color: var(--modal-background);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .roles h2 {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 1em;
+            font-weight: normal;
+            color: var(--text-color);
+        }
+
+        .category .category-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .feature-toggles {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            /* 3 columns */
+            grid-gap: 10px;
+            /* Adjust the gap as needed */
+        }
+
+        .settings-toggle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .settings-toggle h2 {
+            font-size: .8em;
+            margin-bottom: 0;
+            margin-top:1px;
+            color: var(--secondary);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+            margin-bottom: 4px;
+            margin-top: 8px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--secondary);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--modal-background);
+            transition: .4s;
+            border-radius: 50%;
+            border: 2px solid var(--modal-background);
+        }
+
+        input:checked+.slider {
+            background-color: var(--surfly-dark-blue);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(16px);
+            border-color: var(--modal-background);
+        }
+
+
+        .your-settings {
+            font-size: .7em;
+            width: 35%;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            padding: 1px;
+            border-radius: 10px;
+            overflow: auto;
+            height: fit-content;
+        }
+
+        .section-heading {
+            font-style: normal;
+            font-size: 1.2em;
+            color: var(--primary);
+            text-align: left;
+            margin-bottom:2px;
+            margin-top:1px;
+        }
+
+        .description {
+            font-style: italic;
+            color: var(--secondary);
+            font-size: .8em;
+            font-weight:lighter;
+        }
+
+        .button-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 2px;
+        }
+
+        .pin-display {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .start-session {
+            background-color: var(--surfly-dark-blue);
+            box-sizing: border-box;
+            border-radius: 50px;
+            color: var(--text-color);
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 1.2rem;
+            font-weight: 200;
+            padding: .5rem .8rem;
+            border: 0;
+            touch-action: manipulation;
+            margin-left: 1px;
+            white-space: nowrap;
+        }
+
+        .input-selector-div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .input-string-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: baseline;
+        }
+
+        .input-string-div input {
+            background-color: var(--modal-background);
+            border: 1px solid var(--background-dark);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 1em;
+            font-weight: 300;
+            padding: .5em 1em;
+            text-align: center;
+            margin-right: .2vw;
+            margin-top: 1vh;
+            width: 70%;
+        }
+
+        .input-field {
+            outline: none;
+        }
+
+        .input-field:focus {
+            outline: 2px solid var(--surfly-dark-blue);
+            background-color: var(--primary);
+        }
+
+        .red {
+            color: var(--surfly-red);
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .toggle-button {
+            background-color: var(--surfly-red);
+            color: var(--text-color);
+            border: none;
+            padding: 0px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 1px;
+        }
+
+        .code-font {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--primary);
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .settings,
+            .roles,
+            .your-settings {
+                width: 100%;
+                margin-left: 0;
+                margin-bottom: 20px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .title {
+                text-align: center;
+            }
+        }
+    </style>
+    <script>
+        function toggleCategory(button) {
+            var content = button.nextElementSibling;
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                button.textContent = 'Hide';
+            } else {
+                content.style.display = 'none';
+                button.textContent = 'Expand';
+            }
+        }
+    </script>
+    <script>
+        function toggleCategory(button) {
+            var content = button.nextElementSibling;
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                button.textContent = 'Hide';
+            } else {
+                content.style.display = 'none';
+                button.textContent = 'Expand';
+            }
+        }
+
+        function toggleSelect(img) {
+            img.classList.toggle('selected');
+        }
+    </script>
+
+
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+
+            <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/64e869e4cd0a5d200c10c0e9bfd00adba7e4e60c/resources-common/images/surfly-logo-white.svg"
+                alt="Logo">
+                <div class="title">
+                    <h1 class="code-font">session builder</h1>
+                </div>
+        </header>
+        <div class="main-content">
+            <div class="category-container">
+                <div class="settings">
+                    <div class="category">
+                        <h2 class="section-heading">Starting website/webapp <span class="description">(add multiple if needed)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="input-string-div">
+                                <input type="text" placeholder="Enter any valid URL..." class="input-field"
+                                    id="session_url_input" value="www.wikipedia.com">
+                                <button>Add</button>
+                                <button>Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category">
+                        <h2 class="section-heading">Select server region(s)</h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="category-items">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/usa-icon.png"
+                                    alt="USA" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/canada-icon.png"
+                                    alt="CA" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/germany-icon.png"
+                                    alt="DE" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/nl-icon.png"
+                                    alt="NL" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/uk-icon.png"
+                                    alt="UK" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/singapore-icon.png"
+                                    alt="SIN" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/india-icon.png"
+                                    alt="IN" onclick="toggleSelect(this)">
+                                <img src="https://raw.githubusercontent.com/JSPOON3R/JSPOON3R.github.io/main/resources-common/icons/aus-icon.png"
+                                    alt="AUS" onclick="toggleSelect(this)">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="category">
+                        <h2 class="section-heading">Configure the session <span class="description">(select from a range
+                                of features & build the right experience)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="feature-toggles">
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Video</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Text Chat</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Document Editor</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Invites Enabled</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Screen Share</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Notifications</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>File Transfer</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Control Switching</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>New URLs Allowed</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Annotations</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Loading Screen</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Host Admission Only</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Ask for Consent</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Hide Branding</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Disable Session UI</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="category">
+                        <h2 class="section-heading">Configure the video settings <span class="description">(ensure you
+                                have enabled video above)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="feature-toggles">
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Start Full Screen</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Prompt to Join</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Full Screen: Grid</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Full Screen: Tile</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Reduced: Grid</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Reduced: Sidebar</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category">
+                        <h2 class="section-heading">Element Masking <span class="description">(control what participants can see)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="input-string-div">
+                                <input type="text" placeholder="Enter any valid URL..." class="input-field"
+                                    id="masking_input" value="www.wikipedia.com">
+                                <button>Add to Selectors</button>
+                                <button>Clear</button>
+                            </div>
+                            <span class="description">Add CSS selectors for the elements you want to hide or mask all elements of a type<br><br> </span>
+
+                            <div class="feature-toggles">
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>IMG</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>INPUT</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>BUTTON</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>TEXTAREA</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>SELECT</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category">
+                        <h2 class="section-heading">Who should Host? <span class="description">(the host controls the
+                                tabs and the video view)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="feature-toggles">
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Agent</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Customer</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category">
+                        <h2 class="section-heading">Who should be in Control? <span class="description">(the participant
+                                in control navigates the page)</span></h2>
+                        <button class="toggle-button" onclick="toggleCategory(this)">Expand</button>
+                        <div class="category-content" style="display: none;">
+                            <div class="feature-toggles">
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Agent</h2>
+                                </div>
+                                <div class="settings-toggle">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <h2>Customer</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="start-session">Start Session</button>
+                    <span class="pin-display">PIN DISPLAY FIELD</span>
+                </div>
+            </div>
+            <div class="your-settings">
+                <pre><code class="language-javascript">
+        (function (s, u, r, f, l, y) {
+        s[f] = s[f] || { init: function () { s[f].q = arguments } };
+        l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+        l.src = 'https://app.surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+        }) (window, document, 'script', 'Surfly');
+        
+        var SurflySession;
+        var settings = {
+            widget_key: 'd97af65cf4d24a7f86783f8cd38cfe8e',
+            block_until_agent_joins: false,
+            end_redirect_enabled: false,
+            videochat: false,
+            tags: ["demo-page"]
+                        };
+                        
+        function startSession() {
+        Surfly.init(settings, function (initResult) {
+        if (initResult.success) {
+        if (!Surfly.isInsideSession) {
+        console.log("Surfly loaded successfully!") }}
+        else {console.log("Surfly was unable to initialize properly.")}});
+        
+        SurflySession = Surfly.session().startLeader();
+        }
+                </code></pre>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
