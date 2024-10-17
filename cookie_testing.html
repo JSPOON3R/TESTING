@@ -96,7 +96,8 @@
     <div class="iframe-container">
         <h2>Tableau: <i>cross origin iframe</i></h2>
         <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
-            allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies">
+        allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups">
         </iframe>
     </div>
     <div class="api-button left-button">
@@ -142,7 +143,7 @@
                 "participants_can_request_to_interact": true,
                 "screensharing_enabled": true,
                 "session_start_confirmation": true,
-                "start_with_invite_modal": true,
+                "start_with_invite_modal": false,
                 "videochat_enabled": true,
                 "default_videochat_fullscreen_mode": "grid",
                 "default_videochat_mode": "floating",
@@ -167,7 +168,8 @@
             const apiUrl = 'https://surfly.com/v2/sessions/?api_key=99671227762b43c2a96daa066ee006e2';
             const requestBody = {
                 "url": "https://demo.surfly.com/TESTING/cookie_testing.html",
-                "block_until_agent_joins": false
+                "block_until_agent_joins": false,
+                "start_with_invite_modal": false
             };
 
             fetch(apiUrl, {
