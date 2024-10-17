@@ -112,14 +112,11 @@
         <div class="button-label">JS API</div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('tableau_iframe').addEventListener('load', function () {
-                window.location.href = 'https://prod-uk-a.online.tableau.com/#/site/databooster/home';
-            });
-        });
+        document.getElementById('tableau_iframe').src = 'https://prod-uk-a.online.tableau.com/#/site/databooster/home';
     </script>
+
     <script>
-        
+
         function startJavascriptSession() {
             (function (s, u, r, f, l, y) {
                 s[f] = s[f] || { init: function () { s[f].q = arguments } };
