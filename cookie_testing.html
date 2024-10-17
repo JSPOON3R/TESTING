@@ -126,7 +126,7 @@
                 "alternative_proxy_enabled": true,
                 "anonymous_users_can_share_camera": true,
                 "anyone_can_deactivate_space": true,
-                "block_until_agent_joins": true,
+                "block_until_agent_joins": false,
                 "chat_enabled": true,
                 "default_invitations_enabled": true,
                 "document_editor_enabled": true,
@@ -166,7 +166,8 @@
         function startRestApiSession() {
             const apiUrl = 'https://surfly.com/v2/sessions/?api_key=99671227762b43c2a96daa066ee006e2';
             const requestBody = {
-                "url": "https://prod-uk-a.online.tableau.com/#/site/databooster/home"
+                "url": "https://prod-uk-a.online.tableau.com/#/site/databooster/home",
+                "block_until_agent_joins": false
             };
 
             fetch(apiUrl, {
