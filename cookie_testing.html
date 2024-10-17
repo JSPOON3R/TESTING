@@ -49,7 +49,7 @@
     <!-- Second iframe with Plausible -->
     <div class="iframe-container">
       <h2>Plausible: <i>cross origin iframe</i></h2>
-      <iframe src="https://plausible.io"
+      <iframe src="https://plausible.io?nocache=" + new Date().getTime() 
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation allow-storage-access-by-user-activation"
         allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies">></iframe>
     </div>
