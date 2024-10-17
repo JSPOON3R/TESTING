@@ -96,7 +96,6 @@
     <div class="iframe-container">
         <h2>Tableau: <i>cross origin iframe</i></h2>
         <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" id="tableau_iframe"></iframe>
-        <button id="grantAccessButton">Grant Storage Access</button>
     </div>
     <div class="api-button left-button">
         <div class="button" onclick="startRestApiSession()">
@@ -112,20 +111,6 @@
         </div>
         <div class="button-label">JS API</div>
     </div>
-    <script>
-        document.getElementById('tableau_iframe').src = 'https://prod-uk-a.online.tableau.com/#/site/databooster/home';
-    </script>
-
-
-<script>
-    document.getElementById('grantAccessButton').addEventListener('click', function() {
-        document.getElementById('tableau_iframe').contentWindow.document.requestStorageAccess().then(() => {
-            console.log("Storage access granted!");
-        }).catch(() => {
-            console.log("Storage access denied!");
-        });
-    });
-</script>
 
     <script>
 
