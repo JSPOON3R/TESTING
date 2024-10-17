@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Example</title>
+  <title>Cross Origin Cookie Testing</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -47,16 +47,6 @@
 </head>
 
 <body>
-
-  <div class="container">
-    <!-- First iframe with Google Drive -->
-    <div class="iframe-container">
-      <h2>Google Drive: <i>same origin</i></h2>
-      <iframe src="https://drive.google.com"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation allow-storage-access-by-user-activation"
-        allow="fullscreen; geolocation; microphone; camera; display-capture; encrypted-media; cross-origin-isolated; cookies"></iframe>
-    </div>
-
     <!-- Second iframe with Plausible -->
     <div class="iframe-container">
       <h2>Plausible: <i>cross origin</i></h2>
