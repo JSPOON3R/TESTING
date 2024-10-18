@@ -241,7 +241,7 @@ function injectCookie(iframeId) {
 
             // Check if the cookie already exists
             const existingCookies = iframeDocument.cookie;
-            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "="));
+            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "=ROBIN"));
 
             if (cookieExists) {
                 // If cookie is already present
@@ -257,7 +257,7 @@ function injectCookie(iframeId) {
                 setTimeout(function() {
     if (cookieSet) {
         // If the cookie was successfully set
-        logMessage("Cookie successfully added to " + iframeId + ": " + newCookies);
+        logMessage("Cookie successfully added to " + iframeId);
     } else {
         // If cookie was not added
         logMessage("Error: Cookie could not be added to " + iframeId);
