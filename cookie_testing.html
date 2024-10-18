@@ -224,8 +224,6 @@ function logMessage(message) {
 // Cookie tester for a given iframe ID
 function injectCookie(iframeId) {
     const iframe = document.getElementById(iframeId);
-
-    iframe.addEventListener('load', function () {
         try {
             // Log the iframe ID being targeted
             logMessage("Attempting to inject cookie for iframe: " + iframeId);
@@ -265,7 +263,6 @@ function injectCookie(iframeId) {
             // If there's a cross-origin or any other error, display the error message
             logMessage("Error while setting cookie in " + iframeId + ": " + error.message);
         }
-    });
 }
 
 // Function to handle the Inject Cookie button click
