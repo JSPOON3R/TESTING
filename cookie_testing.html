@@ -160,6 +160,14 @@
         .right-button {
             right: 20px;
         }
+
+        p {
+            padding:0;
+            margin:0;
+            margin:0;
+            font-style: italic;
+            font-size:.7em;
+        }
     </style>
 </head>
 
@@ -168,21 +176,28 @@
         <div class="container-row">
             <div class="iframe-container">
                 <h2>Tableau: <i>pre-redirect link</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: SAMEORIGIN, x-tableau:Tableau Server<br>
+                    </p>
                 <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
                     id="tableau_iframe_1"></iframe>
             </div>
             <div class="iframe-container">
                 <h2>Tableau: <i>post redirect SSO page</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: DENY, x-xss-protection:1; mode=block<br>
+                </p>
                 <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
             </div>
         </div>
         <div class="container-row">
             <div class="iframe-container">
                 <h2>Salesforce: <i>cross origin iframe</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin<br>
+                </p>
                 <iframe src="https://www.salesforce.com" id="sf_iframe"></iframe>
             </div>
             <div class="iframe-container">
                 <h2>Demo Page: <i>same origin iframe</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin<br>
                 <iframe src="https://demo.surfly.com" id="surfly_demo_iframe"></iframe>
             </div>
         </div>
@@ -221,8 +236,8 @@
 // Helper function to log messages in the log-line div
 function logMessage(message) {
     const logDiv = document.getElementById('log-line');
-    logDiv.innerHTML += message + '<br>'; // Append message on new line
-    logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to the bottom
+    logDiv.innerHTML += message + '<br>'; 
+    logDiv.scrollTop = logDiv.scrollHeight; 
 }
 
 // Cookie tester for a given iframe ID
