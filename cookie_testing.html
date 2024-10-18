@@ -20,14 +20,24 @@
         }
 
         .container {
+            height: 86%;
+            width:100vw;
+            margin-bottom:10%;
+        }
+
+        .container-row {
+            height:50%;
+            width:100%;
             display: flex;
-            gap: 20px;
+            justify-content: space-around;
+            align-items: center;
+            margin:2%;
         }
 
         iframe {
-            width: 600px;
-            height: 450px;
             border: 2px solid #ccc;
+            width: 100%;
+            height: 100%;
         }
 
         .iframe-container {
@@ -39,11 +49,13 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             margin:20px;
+            width: 45%;
+            height: 90%;
         }
 
         h2 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+            font-size: 1em;
+            margin-bottom: 5px;
         }
 
         .api-button {
@@ -56,12 +68,21 @@
             z-index: 1000;
         }
 
+        .logbox {
+            background-color: #f0f0f0;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width:60%;
+            height:5%;
+            border-radius: 15px;
+        }
+
         .button {
             background-color: white;
             border: 2px solid #c72323;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -95,14 +116,28 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="container-row">
     <div class="iframe-container">
-        <h2>Tableau: <i>cross origin iframe</i></h2>
-        <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" id="tableau_iframe"></iframe>
+        <h2>Tableau: <i>pre-redirect link</i></h2>
+        <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" id="tableau_iframe_1"></iframe>
     </div>
+    <div class="iframe-container">
+        <h2>Tableau: <i>post redirect SSO page</i></h2>
+        <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
+    </div>
+</div>
+<div class="container-row">
     <div class="iframe-container">
         <h2>Salesforce: <i>cross origin iframe</i></h2>
-        <iframe src="https://www.salesforce.com/nl/?ir=1" id="tableau_iframe"></iframe>
+        <iframe src="www.salesforce.com" id="sf_iframe"></iframe>
     </div>
+    <div class="iframe-container">
+        <h2>Demo Page: <i>same origin iframe</i></h2>
+        <iframe src="demo.surfly.com" id="surfly_demo_iframe"></iframe>
+    </div>
+</div>
+</div>
     <div class="api-button left-button">
         <div class="button" onclick="startRestApiSession()">
             <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
@@ -118,6 +153,9 @@
         <div class="button-label">JS API</div>
     </div>
 
+    <div class="api-button logbox">
+        <div class="log-line"></div>
+    </div>
     <script>
 
         function startJavascriptSession() {
@@ -147,7 +185,7 @@
                 "original_file_download_allowed": true,
                 "participants_can_request_to_interact": true,
                 "screensharing_enabled": true,
-                "session_start_confirmation": true,
+                "session_start_confirmation": false,
                 "start_with_invite_modal": false,
                 "videochat_enabled": true,
                 "default_videochat_fullscreen_mode": "grid",
@@ -203,7 +241,52 @@
                 });
         }
 
-    </script>
+
+        //cookie tester
+    // Wait until the iframe has loaded
+    document.getElementById('myIframe').addEventListener('load', function () {
+        try {
+            // Access the iframe's document (same-origin)
+            const iframeDocument = document.getElementById('myIframe').contentDocument;
+
+            // Define the cookie name and value
+            const cookieName = "myCookieName";
+            const cookieValue = "myCookieValue";
+            const cookieString = cookieName + "=" + cookieValue + "; path=/;";
+
+            // Check if the cookie already exists
+            const existingCookies = iframeDocument.cookie;
+            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "="));
+
+            if (cookieExists) {
+                // If cookie is already present
+                console.log("Cookie already exists:", existingCookies);
+                alert("Cookie already exists: " + cookieName);
+            } else {
+                // Inject the cookie into the iframe
+                iframeDocument.cookie = cookieString;
+
+                // Verify by logging cookies from the iframe
+                const newCookies = iframeDocument.cookie;
+                const cookieSet = newCookies.includes(cookieString);
+
+                if (cookieSet) {
+                    // If the cookie was successfully set
+                    console.log("Cookie successfully added:", newCookies);
+                    alert("Cookie successfully added: " + cookieString);
+                } else {
+                    // If cookie was not added
+                    console.error("Cookie could not be added.");
+                    alert("Error: Cookie could not be added.");
+                }
+            }
+        } catch (error) {
+            // If there's an error, display the error message
+            console.error("Error while setting cookie:", error);
+            alert("Error while setting cookie: " + error.message);
+        }
+    });
+</script>
 </body>
 
 </html>
