@@ -86,12 +86,13 @@
         }
 
         .log-line {
-            white-space: pre-wrap;
-            font-family: monospace;
-            height: 100%;
-            overflow-y: auto;
-            padding: 10px;
-        }
+    white-space: pre-wrap;
+    font-family: monospace;
+    height: 100%;
+    overflow-y: auto;
+    word-wrap: break-word; /* Ensures long text breaks to a new line */
+    padding: 10px;
+}
 
         .iframe-selector-container {
             z-index: 1000;
