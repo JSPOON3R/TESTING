@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross Origin Cookie Testing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        .container {
+            height: 86%;
+            width: 100vw;
+            margin-bottom: 10%;
+        }
+
+        .container-row {
+            height: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 2%;
+        }
+
+        iframe {
+            border: 2px solid #ccc;
+            width: 100%;
+            height: 100%;
+        }
+
+        .iframe-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            width: 45%;
+            height: 90%;
+        }
+
+        h2 {
+            font-size: 1em;
+            margin-bottom: 3px;
+            margin-top:2px;
+        }
+
+        .api-button {
+            position: fixed;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Fixed height for logbox */
+        .logbox {
+            background-color: #f0f0f0;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            height: 5%;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        /* Expand logbox on hover */
+        .logbox:hover {
+            height: 40%;
+        }
+
+        .log-line {
+            white-space: pre-wrap;
+    font-family: monospace;
+    height: 100%;
+    overflow-y: auto;
+    word-wrap: break-word;
+    text-wrap: wrap;
+    padding: 10px;
+    width: 95%;
+    
+}
+
+        .iframe-selector-container {
+            z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+        }
+
+        #iframe-selector {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #inject-cookie-btn {
+            padding: 5px 10px;
+            background-color: #c72323;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #inject-cookie-btn:hover {
+            background-color: #b01f1f;
+        }
+
+
+        .button {
+            background-color: white;
+            border: 2px solid #c72323;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 0;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .button img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+        }
+
+        .button-label {
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+        }
+
+        .left-button {
+            left: 20px;
+        }
+
+        .right-button {
+            right: 20px;
+        }
+
+        p {
+            padding:0;
+            margin:0;
+            margin:0;
+            font-style: italic;
+            font-size:.7em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-row">
+            <div class="iframe-container">
+                <h2>Tableau: pre-redirect link - <i>cross origin</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: SAMEORIGIN, x-tableau:Tableau Server<br>
+                    </p>
+                <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
+                    id="tableau_iframe_1"></iframe>
+            </div>
+            <div class="iframe-container">
+                <h2>Tableau: post redirect SSO page - <i>cross origin</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: DENY, x-xss-protection:1; mode=block<br>
+                </p>
+                <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
+            </div>
+        </div>
+        <div class="container-row">
+            <div class="iframe-container">
+                <h2>Salesforce - <i>cross origin</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin<br>
+                </p>
+                <iframe src="https://www.salesforce.com" id="sf_iframe"></iframe>
+            </div>
+            <div class="iframe-container">
+                <h2>Demo Page - <i>same origin</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin<br></p>
+                <iframe src="https://demo.surfly.com" id="surfly_demo_iframe"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="api-button left-button">
+        <div class="button" onclick="startRestApiSession()">
+            <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
+                alt="REST API Icon">
+        </div>
+        <div class="button-label">REST API</div>
+    </div>
+    <div class="api-button right-button">
+        <div class="button" onclick="startJavascriptSession()">
+            <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
+                alt="JavaScript API Icon">
+        </div>
+        <div class="button-label">JS API</div>
+    </div>
+
+    <div class="api-button logbox">
+        <div class="log-line" id="log-line"></div>
+        <div class="iframe-selector-container" id="iframe-selector-container">
+            <select id="iframe-selector">
+                <option value="" disabled selected>Select an iframe</option>
+                <option value="tableau_iframe_1">Tableau: pre-redirect link</option>
+                <option value="tableau_iframe_2">Tableau: post redirect SSO page</option>
+                <option value="sf_iframe">Salesforce: cross origin iframe</option>
+                <option value="surfly_demo_iframe">Demo Page: same origin iframe</option>
+            </select>
+            <button id="inject-cookie-btn">Inject Cookie</button>
+        </div>
+    </div>
+
+    <script>
+// Helper function to log messages in the log-line div
+function logMessage(message) {
+    const logDiv = document.getElementById('log-line');
+    logDiv.innerHTML += message + '<br>'; 
+    logDiv.scrollTop = logDiv.scrollHeight; 
+}
+
+// Cookie tester for a given iframe ID
+function injectCookie(iframeId) {
+    const iframe = document.getElementById(iframeId);
+        try {
+            // Log the iframe ID being targeted
+            logMessage("Attempting to inject cookie for iframe: " + iframeId);
+
+            // Access the iframe's document (same-origin)
+            const iframeDocument = iframe.contentDocument;
+
+            // Define the cookie name and value
+            const cookieName = "BATMAN";
+            const cookieValue = "ROBIN";
+            const cookieString = cookieName + "=" + cookieValue + "; path=/;";
+
+            // Check if the cookie already exists
+            const existingCookies = iframeDocument.cookie;
+            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "=ROBIN"));
+
+            if (cookieExists) {
+                // If cookie is already present
+                logMessage("Cookie already exists in " + iframeId + ": " + existingCookies);
+            } else {
+                // Inject the cookie into the iframe
+                iframeDocument.cookie = cookieString;
+
+                // Verify by logging cookies from the iframe
+                const newCookies = iframeDocument.cookie;
+                const cookieSet = newCookies.includes(cookieString);
+
+                setTimeout(function() {
+    if (cookieSet) {
+        // If the cookie was successfully set
+        logMessage("Cookie successfully added to " + iframeId);
+    } else {
+        // If cookie was not added
+        logMessage("Error: Cookie could not be added to " + iframeId);
+    }
+}, 2000); 
+
+            }
+        } catch (error) {
+            // If there's a cross-origin or any other error, display the error message
+            logMessage("Error while setting cookie in " + iframeId + ": " + error.message);
+        }
+}
+
+// Function to handle the Inject Cookie button click
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('inject-cookie-btn').addEventListener('click', function () {
+        const selectedIframeId = document.getElementById('iframe-selector').value;
+
+        if (selectedIframeId) {
+            // Call the injectCookie function with the selected iframe ID
+            logMessage("Inject Cookie button clicked.");
+            logMessage("Selected iframe: " + selectedIframeId);
+            injectCookie(selectedIframeId);
+        } else {
+            logMessage("No iframe selected. Please select an iframe.");
+        }
+    });
+
+    logMessage("DOM content loaded. Button event listener attached.");
+});
+
+
+
+        function startJavascriptSession() {
+            (function (s, u, r, f, l, y) {
+                s[f] = s[f] || { init: function () { s[f].q = arguments } };
+                l = u.createElement(r); y = u.getElementsByTagName(r)[0]; l.async = 1;
+                l.src = 'https://surfly.com/surfly.js'; y.parentNode.insertBefore(l, y);
+            })(window, document, 'script', 'Surfly');
+
+            var SurflySession;
+            var settings = {
+                "alternative_proxy_enabled": true,
+                "anonymous_users_can_share_camera": true,
+                "anyone_can_deactivate_space": true,
+                "block_until_agent_joins": false,
+                "chat_enabled": true,
+                "default_invitations_enabled": true,
+                "document_editor_enabled": true,
+                "download_trigger_enabled": true,
+                "filesharing_enabled": true,
+                "host_switching_allowed": true,
+                "invitations_allowed": true,
+                "multileader": true,
+                "native_selects": true,
+                "new_urls_allowed": true,
+                "non_hosts_can_open_tabs": true,
+                "original_file_download_allowed": true,
+                "participants_can_request_to_interact": true,
+                "screensharing_enabled": true,
+                "session_start_confirmation": false,
+                "start_with_invite_modal": false,
+                "videochat_enabled": true,
+                "default_videochat_fullscreen_mode": "grid",
+                "default_videochat_mode": "floating",
+                "widget_key": "99671227762b43c2a96daa066ee006e2",
+                "tags": [
+                    "Session-Builder"
+                ]
+            };
+
+            Surfly.init(settings, function (init) {
+                if (init.success && !Surfly.isInsideSession) {
+                    console.log("init success");
+                    SurflySession = Surfly.session().create()
+                        .on("session_created", function (session, event) {
+                            SurflySession.startLeader();
+                        });
+                }
+            });
+        };
+
+        function startRestApiSession() {
+            const apiUrl = 'https://surfly.com/v2/sessions/?api_key=99671227762b43c2a96daa066ee006e2';
+            const requestBody = {
+                "url": "https://demo.surfly.com/TESTING/cookie_testing.html",
+                "block_until_agent_joins": false,
+                "start_with_invite_modal": false
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const leaderLink = data.leader_link;
+                    if (leaderLink) {
+                        window.location.href = leaderLink;
+                    } else {
+                        console.error('Leader link not found in response');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during API request:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
