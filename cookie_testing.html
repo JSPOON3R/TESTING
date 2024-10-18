@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            width:100vw;
             background-color: #f0f0f0;
             position: relative;
         }
@@ -24,8 +25,8 @@
         }
 
         iframe {
-            width: 1000px;
-            height: 800px;
+            width: 600px;
+            height: 450px;
             border: 2px solid #ccc;
         }
 
@@ -37,6 +38,7 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin:20px;
         }
 
         h2 {
@@ -96,6 +98,10 @@
     <div class="iframe-container">
         <h2>Tableau: <i>cross origin iframe</i></h2>
         <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" id="tableau_iframe"></iframe>
+    </div>
+    <div class="iframe-container">
+        <h2>Salesforce: <i>cross origin iframe</i></h2>
+        <iframe src="https://www.salesforce.com/nl/?ir=1" id="tableau_iframe"></iframe>
     </div>
     <div class="api-button left-button">
         <div class="button" onclick="startRestApiSession()">
