@@ -252,13 +252,16 @@ function injectCookie(iframeId) {
                 const newCookies = iframeDocument.cookie;
                 const cookieSet = newCookies.includes(cookieString);
 
-                if (cookieSet) {
-                    // If the cookie was successfully set
-                    logMessage("Cookie successfully added to " + iframeId + ": " + newCookies);
-                } else {
-                    // If cookie was not added
-                    logMessage("Error: Cookie could not be added to " + iframeId);
-                }
+                setTimeout(function() {
+    if (cookieSet) {
+        // If the cookie was successfully set
+        logMessage("Cookie successfully added to " + iframeId + ": " + newCookies);
+    } else {
+        // If cookie was not added
+        logMessage("Error: Cookie could not be added to " + iframeId);
+    }
+}, 2000); 
+
             }
         } catch (error) {
             // If there's a cross-origin or any other error, display the error message
