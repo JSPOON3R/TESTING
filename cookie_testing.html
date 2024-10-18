@@ -14,24 +14,24 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            width:100vw;
+            width: 100vw;
             background-color: #f0f0f0;
             position: relative;
         }
 
         .container {
             height: 86%;
-            width:100vw;
-            margin-bottom:10%;
+            width: 100vw;
+            margin-bottom: 10%;
         }
 
         .container-row {
-            height:50%;
-            width:100%;
+            height: 50%;
+            width: 100%;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin:2%;
+            margin: 2%;
         }
 
         iframe {
@@ -48,7 +48,7 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin:20px;
+            margin: 20px;
             width: 45%;
             height: 90%;
         }
@@ -68,14 +68,58 @@
             z-index: 1000;
         }
 
+        /* Fixed height for logbox */
         .logbox {
             background-color: #f0f0f0;
             border: 2px solid white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width:60%;
-            height:5%;
+            width: 60%;
+            height: 5%;
             border-radius: 15px;
+            overflow: hidden;
+            transition: height 0.3s ease;
         }
+
+        /* Expand logbox on hover */
+        .logbox:hover {
+            height: 40%;
+        }
+
+        .log-line {
+            white-space: pre-wrap;
+            font-family: monospace;
+            height: 100%;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .iframe-selector-container {
+            z-index: 1000;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+        }
+
+        #iframe-selector {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #inject-cookie-btn {
+            padding: 5px 10px;
+            background-color: #c72323;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #inject-cookie-btn:hover {
+            background-color: #b01f1f;
+        }
+
 
         .button {
             background-color: white;
@@ -118,26 +162,28 @@
 <body>
     <div class="container">
         <div class="container-row">
-    <div class="iframe-container">
-        <h2>Tableau: <i>pre-redirect link</i></h2>
-        <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home" id="tableau_iframe_1"></iframe>
+            <div class="iframe-container">
+                <h2>Tableau: <i>pre-redirect link</i></h2>
+                <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
+                    id="tableau_iframe_1"></iframe>
+            </div>
+            <div class="iframe-container">
+                <h2>Tableau: <i>post redirect SSO page</i></h2>
+                <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
+            </div>
+        </div>
+        <div class="container-row">
+            <div class="iframe-container">
+                <h2>Salesforce: <i>cross origin iframe</i></h2>
+                <iframe src="https://www.salesforce.com" id="sf_iframe"></iframe>
+            </div>
+            <div class="iframe-container">
+                <h2>Demo Page: <i>same origin iframe</i></h2>
+                <iframe src="https://demo.surfly.com" id="surfly_demo_iframe"></iframe>
+            </div>
+        </div>
     </div>
-    <div class="iframe-container">
-        <h2>Tableau: <i>post redirect SSO page</i></h2>
-        <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
-    </div>
-</div>
-<div class="container-row">
-    <div class="iframe-container">
-        <h2>Salesforce: <i>cross origin iframe</i></h2>
-        <iframe src="www.salesforce.com" id="sf_iframe"></iframe>
-    </div>
-    <div class="iframe-container">
-        <h2>Demo Page: <i>same origin iframe</i></h2>
-        <iframe src="demo.surfly.com" id="surfly_demo_iframe"></iframe>
-    </div>
-</div>
-</div>
+
     <div class="api-button left-button">
         <div class="button" onclick="startRestApiSession()">
             <img src="https://github.com/JSPOON3R/JSPOON3R.github.io/blob/main/resources-common/icons/tools.png?raw=true"
@@ -154,9 +200,93 @@
     </div>
 
     <div class="api-button logbox">
-        <div class="log-line"></div>
+        <div class="log-line" id="log-line"></div>
+        <div class="iframe-selector-container" id="iframe-selector-container">
+            <select id="iframe-selector">
+                <option value="" disabled selected>Select an iframe</option>
+                <option value="tableau_iframe_1">Tableau: pre-redirect link</option>
+                <option value="tableau_iframe_2">Tableau: post redirect SSO page</option>
+                <option value="sf_iframe">Salesforce: cross origin iframe</option>
+                <option value="surfly_demo_iframe">Demo Page: same origin iframe</option>
+            </select>
+            <button id="inject-cookie-btn">Inject Cookie</button>
+        </div>
     </div>
+
     <script>
+// Helper function to log messages in the log-line div
+function logMessage(message) {
+    const logDiv = document.getElementById('log-line');
+    logDiv.innerHTML += message + '<br>'; // Append message on new line
+    logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll to the bottom
+}
+
+// Cookie tester for a given iframe ID
+function injectCookie(iframeId) {
+    const iframe = document.getElementById(iframeId);
+
+    iframe.addEventListener('load', function () {
+        try {
+            // Log the iframe ID being targeted
+            logMessage("Attempting to inject cookie for iframe: " + iframeId);
+
+            // Access the iframe's document (same-origin)
+            const iframeDocument = iframe.contentDocument;
+
+            // Define the cookie name and value
+            const cookieName = "BATMAN";
+            const cookieValue = "ROBIN";
+            const cookieString = cookieName + "=" + cookieValue + "; path=/;";
+
+            // Check if the cookie already exists
+            const existingCookies = iframeDocument.cookie;
+            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "="));
+
+            if (cookieExists) {
+                // If cookie is already present
+                logMessage("Cookie already exists in " + iframeId + ": " + existingCookies);
+            } else {
+                // Inject the cookie into the iframe
+                iframeDocument.cookie = cookieString;
+
+                // Verify by logging cookies from the iframe
+                const newCookies = iframeDocument.cookie;
+                const cookieSet = newCookies.includes(cookieString);
+
+                if (cookieSet) {
+                    // If the cookie was successfully set
+                    logMessage("Cookie successfully added to " + iframeId + ": " + newCookies);
+                } else {
+                    // If cookie was not added
+                    logMessage("Error: Cookie could not be added to " + iframeId);
+                }
+            }
+        } catch (error) {
+            // If there's a cross-origin or any other error, display the error message
+            logMessage("Error while setting cookie in " + iframeId + ": " + error.message);
+        }
+    });
+}
+
+// Function to handle the Inject Cookie button click
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('inject-cookie-btn').addEventListener('click', function () {
+        const selectedIframeId = document.getElementById('iframe-selector').value;
+
+        if (selectedIframeId) {
+            // Call the injectCookie function with the selected iframe ID
+            logMessage("Inject Cookie button clicked.");
+            logMessage("Selected iframe: " + selectedIframeId);
+            injectCookie(selectedIframeId);
+        } else {
+            logMessage("No iframe selected. Please select an iframe.");
+        }
+    });
+
+    logMessage("DOM content loaded. Button event listener attached.");
+});
+
+
 
         function startJavascriptSession() {
             (function (s, u, r, f, l, y) {
@@ -240,55 +370,7 @@
                     console.error('Error during API request:', error);
                 });
         }
-
-
-        //cookie tester
-
-    
-    // Wait until the iframe has loaded
-    document.getElementById('surfly_demo_iframe').addEventListener('load', function () {
-        try {
-            // Access the iframe's document (same-origin)
-            const iframeDocument = document.getElementById('myIframe').contentDocument;
-
-            // Define the cookie name and value
-            const cookieName = "myCookieName";
-            const cookieValue = "myCookieValue";
-            const cookieString = cookieName + "=" + cookieValue + "; path=/;";
-
-            // Check if the cookie already exists
-            const existingCookies = iframeDocument.cookie;
-            const cookieExists = existingCookies.split('; ').some(cookie => cookie.startsWith(cookieName + "="));
-
-            if (cookieExists) {
-                // If cookie is already present
-                console.log("Cookie already exists:", existingCookies);
-                alert("Cookie already exists: " + cookieName);
-            } else {
-                // Inject the cookie into the iframe
-                iframeDocument.cookie = cookieString;
-
-                // Verify by logging cookies from the iframe
-                const newCookies = iframeDocument.cookie;
-                const cookieSet = newCookies.includes(cookieString);
-
-                if (cookieSet) {
-                    // If the cookie was successfully set
-                    console.log("Cookie successfully added:", newCookies);
-                    alert("Cookie successfully added: " + cookieString);
-                } else {
-                    // If cookie was not added
-                    console.error("Cookie could not be added.");
-                    alert("Error: Cookie could not be added.");
-                }
-            }
-        } catch (error) {
-            // If there's an error, display the error message
-            console.error("Error while setting cookie:", error);
-            alert("Error while setting cookie: " + error.message);
-        }
-    });
-</script>
+    </script>
 </body>
 
 </html>
