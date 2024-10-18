@@ -319,7 +319,8 @@
         const requestBody = {
             "url": iframeUrl,  // Use the provided iframe URL
             "block_until_agent_joins": false,
-            "start_with_invite_modal": false
+            "start_with_invite_modal": false,
+            "hide_session_ui": true
         };
 
         fetch(apiUrl, {
