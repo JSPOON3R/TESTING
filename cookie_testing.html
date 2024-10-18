@@ -55,7 +55,8 @@
 
         h2 {
             font-size: 1em;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
+            margin-top:2px;
         }
 
         .api-button {
@@ -175,14 +176,14 @@
     <div class="container">
         <div class="container-row">
             <div class="iframe-container">
-                <h2>Tableau: <i>pre-redirect link</i></h2>
+                <h2>Tableau: pre-redirect link - <i>cross origin</i></h2>
                 <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: SAMEORIGIN, x-tableau:Tableau Server<br>
                     </p>
                 <iframe src="https://prod-uk-a.online.tableau.com/#/site/databooster/home"
                     id="tableau_iframe_1"></iframe>
             </div>
             <div class="iframe-container">
-                <h2>Tableau: <i>post redirect SSO page</i></h2>
+                <h2>Tableau: post redirect SSO page - <i>cross origin</i></h2>
                 <p>Referrer Policy: strict-origin-when-cross-origin, x-content-type-options: nosniff, x-frame-options: DENY, x-xss-protection:1; mode=block<br>
                 </p>
                 <iframe src="https://sso.online.tableau.com/public/idp/SSO" id="tableau_iframe_2"></iframe>
@@ -190,14 +191,14 @@
         </div>
         <div class="container-row">
             <div class="iframe-container">
-                <h2>Salesforce: <i>cross origin iframe</i></h2>
+                <h2>Salesforce - <i>cross origin</i></h2>
                 <p>Referrer Policy: strict-origin-when-cross-origin<br>
                 </p>
                 <iframe src="https://www.salesforce.com" id="sf_iframe"></iframe>
             </div>
             <div class="iframe-container">
-                <h2>Demo Page: <i>same origin iframe</i></h2>
-                <p>Referrer Policy: strict-origin-when-cross-origin<br>
+                <h2>Demo Page - <i>same origin</i></h2>
+                <p>Referrer Policy: strict-origin-when-cross-origin<br></p>
                 <iframe src="https://demo.surfly.com" id="surfly_demo_iframe"></iframe>
             </div>
         </div>
